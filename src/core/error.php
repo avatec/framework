@@ -1,71 +1,40 @@
-<?php namespace Core;
+<?php
+
+namespace Core;
+
+/**
+ *	Klasa obsługuje prezentacje błędów systemu CMS
+ */
 
 class Error
 {
-    public static $json = false;
+    public static $mode = 'html';
 
-	public static $errors = array();
-	public static function show( $title, $text )
-	{
-        if( self::$json == true ) {
-            http_response_code(500);
-            header('Content-Type: application/json; charset=utf-8');
-            die( json_encode( ['error' => true, 'msg' => $title . ': ' . $text]) );
-        }
+    /**
+     *  Wyświetlenie błedu
+     *  @params string $title Tytuł
+     *  @params string $text Treść błędu
+     */
 
-        @ob_end_clean();
-        http_response_code(500);
-
-        $html[] = '<!doctype html><html><head><meta charset="utf-8">';
-        $html[] = '<title>Avatec Framework - Wystąpił nieoczekiwany błąd !!</title>';
-        $html[] = '<link rel="stylesheet" type="text/css" href="/include/assets/css/error.css" />';
-        $html[] = '</head><body>';
-        $html[] = '<div class="error-container"><div class="error-page">';
-        $html[] = '<h1>' . $title . '</h1>';
-        $html[] = '<h5>' . $text . '</h5>';
-        $html[] = '</div></div></body></html>';
-
-        echo implode( $html );
-		exit;
-	}
-
-	public function CustomErrorHandler( $errno, $errstr, $errfile, $errline )
+    public static function show($title, $text)
     {
-        if (!(error_reporting() & $errno)) {
-            return;
+        @ob_get_contents();
+        if (self::$mode == 'html') {
+            echo '<html><head><meta charset="utf-8"><title>Wystąpił nieoczekiwany błąd</title>';
+            echo '<style type="text/css">';
+            echo 'html, body { margin: 0; padding: 0; font-family: Sans-serif; width: 100%; height: 100%; background: #efefef;color: #232323; text-align: center; }';
+            echo '.main { position: relative; top: 0; left: 0; z-index: 9999;width: 768px; min-height: 100px; padding: 10px; border: 1px solid #cccccc; margin: 5% auto 0 auto; background: #ffffff; color: #222222; word-break: break-all; font-size: 14pt; font-weight: 300; line-height: 150%; }';
+            echo '.main h1 { font-size: 1.3em; letter-spacing: 1px; font-weight: 600; color: #a10000; padding-top: 0; margin-top: 0; text-align: center; padding: 10px 10px; }';
+            echo '.main p { margin: 0; padding-bottom: 2rem; }';
+            echo '</style>';
+            echo '</head><body>' . PHP_EOL;
+            echo '<div class="main">' . PHP_EOL . '<img src="/templates/website/images/logo-log.png" alt="Aga Ciasta" /><h1>' . $title . '</h1>' . PHP_EOL . '<p>' . $text . '</p></div><br/><br/>' . PHP_EOL;
+            echo '<p align="center"><small>Aga Ciasta - &copy; ' . date('Y') . '</small></p>';
+            echo '</body></html>';
         }
-
-        switch ($errno) {
-
-            case E_ERROR:
-                if (self::$json == true) {
-                    return ['error' => true, 'msg' => "E_ERROR: {$errno} $errstr"];
-                }
-                echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-                echo "  Fatal error on line $errline in file $errfile";
-                echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-                echo "Aborting...<br />\n";
-                exit(1);
-                break;
-
-            case E_WARNING:
-                Core\Error::show("WARNING - [$errno] $errstr", "on line $errline in file $errfile<br />\n");
-                break;
-
-            case E_NOTICE:
-                Core\Error::show("NOTICE [$errno] $errstr", "Error on line $errline in file $errfile<br/>\n");
-                break;
-
-            case E_USER_WARNING:
-                Core\Error::show("FRAMEWORK WARNING [#$errno]", "<b>" . $errstr . "</b><br/>Error on line $errline in file $errfile<br/>\n");
-                break;
-
-            default:
-                Core\Error::show("Unknown error type", "<b>Error #$errno</b><br/><br/>$errstr<br /><br/><em>Found in file ".__FILE__." on line ".__LINE__."</em>\n");
-                break;
+        if (self::$mode == 'json') {
+            echo json_encode(['error' => true, 'msg' => $title . ': ' . $text]);
         }
-
-        /* Don't execute PHP internal error handler */
-        return true;
+        exit;
     }
 }

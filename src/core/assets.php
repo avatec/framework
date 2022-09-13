@@ -28,53 +28,73 @@ class Assets
         ];
     }
 
-    private static function has_js( $file )
+    private static function has_js($file)
     {
-        if(!empty( self::$js_files )) {
-            return in_array( $file, self::$js_files );
+        if (!empty(self::$js_files)) {
+            return in_array($file, self::$js_files);
         }
         return false;
     }
 
-    public static function js( $file, $module = null )
+    public static function js($file, $module = null)
     {
-        if( stripos( $file, 'http' ) !== false) {
-            $path = $file;
-        } else {
-            if( is_null( $module )) {
-                $path = '/templates/' . (self::$frontend == true ? 'website' : 'admin') . '/js/';
-            } else {
-                $path = '/modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/js/';
-            }
-
-            $file = $path . $file;
-        }
-
-        if( self::has_js( $file ) == false ) {
+        if (strpos($file, 'http') !== false) {
             self::$js_files[] = $file;
+            return;
         }
-    }
 
-    private static function has_css( $file )
-    {
-        if(!empty( self::$css_files )) {
-            return in_array( $file, self::$css_files );
-        }
-        return false;
-    }
+        global $app_url;
 
-    public static function css( $file, $module = null )
-    {
-        if( is_null( $module )) {
-            $path = '/templates/' . (self::$frontend == true ? 'website' : 'admin') . '/css/';
+        if (is_null($module)) {
+            $path = $app_url . 'templates/' . (self::$frontend == true ? 'website' : 'admin') . '/js/';
         } else {
-            $path = '/modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/css/';
+            $path = $app_url . 'modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/js/';
         }
 
         $file = $path . $file;
 
-        if( self::has_css( $file ) == false ) {
+        if (self::has_js($file) == false) {
+            self::$js_files[] = $file;
+        }
+    }
+
+    private static function has_css($file)
+    {
+        if (!empty(self::$css_files)) {
+            return in_array($file, self::$css_files);
+        }
+        return false;
+    }
+
+    public static function css($file, $module = null)
+    {
+        if (strpos($file, 'http') !== false) {
+            self::$css_files[] = $file;
+            return;
+        }
+
+        global $app_url;
+
+        if (is_null($module)) {
+            $path = $app_url . 'templates/' . (self::$frontend == true ? 'website' : 'admin') . '/css/';
+        } else {
+            $path = $app_url . 'modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/css/';
+        }
+
+        $file = $path . $file;
+
+        if (self::has_css($file) == false) {
             self::$css_files[] = $file;
         }
     }
+
+    public static function setExternalJs( $name, $link )
+	{
+		self::$js_files[$name] = $link;
+	}
+
+    public static function setExternalCss( $name, $link )
+	{
+		self::$css_files[$name] = $link;
+	}
 }

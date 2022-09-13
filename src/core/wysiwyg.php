@@ -2,83 +2,86 @@
 
 class Wysiwyg
 {
+    protected static $html_footer;
     protected static $default = 'summernote';
 
-    public static function init($o)
+    public static function init( string $id, array $o = null )
     {
+        return self::summernote( $id, $o );
     }
 
-    public static function head()
-    {
-    }
+    public static function head() { }
+    public static function body() { }
 
-    public static function body()
+/**
+ * Generowanie edytora summernote
+ * @param  string $id
+ * @param  array  $o
+ * @return string
+ */
+    protected static function summernote( string $id, array $o )
     {
-    }
+        $height = (!empty( $o['height'] ) ? $o['height'] : 300 );
+        $mode = (!empty( $o['mode'] ) ? $o['mode'] : 'default');
 
-    public static function ckeditor($id, $o = null)
-    {
-        $token = '123456789';
-        $html[] = '<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>';
-        $html[] = '<script>ClassicEditor.create( document.querySelector( \'' . $id . '\' ),' .
-        'plugins: [ SimpleUploadAdapter ], simpleUpload: { uploadUrl: \'/api/standard/system/CkEditorUploader\', withCredentials: true, headers: { \'X-CSRF-TOKEN\': \'' . $token . '\' }} )' .
-        '.then( editor => { console.log( editor ); } )' .
-        '.catch( error => { console.error( error ); } );' .
-        '</script>';
-        return implode($html);
-    }
+        switch( $mode ) {
+            default:
+                $toolbar = '[' .
+					'[\'style\', [\'style\', \'addclass\']],' .
+					'[\'font\', [\'bold\', \'underline\', \'clear\']],' .
+					'[\'para\', [\'ul\', \'ol\', \'paragraph\']],' .
+					'[\'table\', [\'table\']],' .
+					'[\'insert\', [\'link\', \'picture\', \'videoAttributes\',\'media\', \'grid\',]],' .
+					'[\'view\', [\'fullscreen\', \'codeview\', \'help\']]' .
+				']';
+            break;
 
-    public static function summernote($o)
-    {
-        if (empty($o['id'])) {
-            return '<p class="alert alert-danger">Summernote requires id param</p>';
-        } else {
-            $id = $o['id'];
+            case "lite":
+                $toolbar = '[' .
+					'[\'style\', [\'style\']],' .
+					'[\'font\', [\'bold\', \'italic\', \'underline\', \'clear\']],' .
+					'[\'para\', [\'ul\', \'ol\', \'paragraph\']],' .
+					'[\'insert\', [\'link\']],' .
+					'[\'view\', [\'fullscreen\', \'codeview\', \'help\']]' .
+				']';
+            break;
         }
 
-        $height = (!empty( $o['height'] ) ? $o['height'] : 250);
+        $html[] = '<script type="text/javascript">$(document).ready(function() {';
 
-        $html[] = '<script type="text/javascript">' .
-        '$(document).ready(function() {';
         if (!is_array($id)) {
-            $html[] = '$("' . $id . '").summernote({' . PHP_EOL .
-                'disableDragAndDrop: true, height: ' . $height . ', lang: \'pl-PL\',' . PHP_EOL .
-                'cleaner:{ ' .
-                    'action: \'both\',' .
-                    'newline: \'<br>\',' .
-                    'notStyle: \'position:absolute;top:0;left:0;right:0\',' .
-                    'keepHtml: true,' .
-                    'keepOnlyTags: [\'<p>\', \'<i>\', \'<br>\', \'<ul>\', \'<ol>\', \'<li>\', \'<b>\', \'<strong>\',\'<i>\', \'<a>\'],' .
-                    'keepClasses: false,' .
-                    'badAttributes: [\'style\', \'start\', \'class\', \'data\'],' .
-                    'limitChars: false,' .
-                    'limitDisplay: \'both\',' .
-                    'limitStop: false},' . PHP_EOL .
-                'toolbar: [' . PHP_EOL .
-                    '[\'style\', [\'bold\', \'italic\', \'underline\', \'clear\']],' . PHP_EOL .
-                    '[\'color\', [\'color\']],' . PHP_EOL .
-                    '[\'insert\', [\'table\',\'link\',\'picture\']],' . PHP_EOL .
-                    '[\'para\', [\'ul\', \'ol\', \'paragraph\']],' . PHP_EOL .
-                    '[\'view\', [\'image\', \'codeview\']],' . PHP_EOL .
-                    '[\'custom\', [\'\']]' . PHP_EOL .
-                '],' .
-                'popover: {' . PHP_EOL .
-                'table: [' .
-                '[\'add\', [\'addRowDown\', \'addRowUp\', \'addColLeft\', \'addColRight\', \'toggle\']],' .
-                '[\'delete\', [\'deleteRow\', \'deleteCol\', \'deleteTable\']],' .
-                '[\'custom\', [\'tableHeaders\']]' .
-                '],' . PHP_EOL .
-                'image: [' .PHP_EOL .
-                '[\'imagesize\', [\'imageSize100\',\'imageSize50\',\'imageSize25\']],' .PHP_EOL .
-                '[\'float\', [\'floatLeft\',\'floatRight\',\'floatNone\']],[\'remove\', [\'removeMedia\']],[\'custom\', [\'imageTitle\']],' .PHP_EOL .
-                ']},callbacks: { onImageUpload: function( file ) {' . PHP_EOL .
-                    'summernote_uploader( file, "' . $id . '" );},' . PHP_EOL .
-					'onMediaDelete: function(target) { summernote_delete_file(target[0].src); }' .PHP_EOL .
-                '}});';
+			$html[] = '$("' . $id . '").summernote({disableDragAndDrop: true, height: ' . $height . ',lang: \'pl-PL\',
+				addclass: {
+					debug: false,
+					classTags: [{title:"Lista zielona", value:"list-green"}]
+				},
+				toolbar: ' . $toolbar . ',
+				popover: {image: [' .
+                '[\'resize\', [\'resizeFull\',\'resizeHalf\',\'resizeQuarter\',\'resizeNone\']],' .
+                '[\'custom\', [\'imageShapes\']],' .
+				'[\'float\', [\'floatLeft\',\'floatRight\',\'floatNone\']],[\'remove\', [\'removeMedia\']],[\'custom\', [\'imageTitle\']],' .
+				'],table: [' .
+					'[\'add\', [\'addRowDown\', \'addRowUp\', \'addColLeft\', \'addColRight\']],' .
+					'[\'delete\', [\'deleteRow\', \'deleteCol\', \'deleteTable\']],' .
+					'[\'custom\', [\'mergeCell\',\'mergeRow\']],'.
+					'[\'custom\', [\'tableStyles\']],'.
+				  '],},
+				callbacks: { onImageUpload: function( file ) {' .
+                    'summernote_uploader( file, "' . $id . '" );},
+					onMediaDelete: function(target) { summernote_delete_file(target[0].src); }' .
+				'},
+				codemirror: {
+					theme: \'hopscotch\',
+                    mode: \'text/html\',
+					htmlMode: true,
+					lineNumbers: true,
+					tabMode: \'indent\'}' .
+            '});';
         }
-        $html[] = '});' .
-        '</script>';
+        $html[] = '});</script>';
 
-        return implode($html);
+        self::$html_footer = implode($html);
+        return self::$html_footer;
     }
+
 }
