@@ -26,10 +26,6 @@
   },
   "minimum-stability": "stable",
   "config": {
-      "sort-packages": true,
-      "preferred-install": {
-        "avatec/framework": "source",
-        "*": "dist"
-      }
+      "sort-packages": true
   }
 }
