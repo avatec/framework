@@ -1,4 +1,0 @@
-# This is a basic workflow that is manually triggered
-
-name: Manual workflow
-run: curl -XPOST -H'content-type:application/json' 'https://packagist.org/api/update-package?username=avatec&apiToken=1myvikqJ2nNMnx2rtbmp' -d'{"repository":{"url":"https://packagist.org/packages/avatec/framework"}}'
