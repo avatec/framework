@@ -2,7 +2,6 @@
   "name": "avatec/framework",
   "description": "Avatec framework",
   "type": "library",
-  "version": "1.0.0",
   "keywords": [
     "avatec framework"
   ],
