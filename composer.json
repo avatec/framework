@@ -1,7 +1,8 @@
 {
     "name": "avatec/framework",
-    "type": "library",
     "description": "Avatec framework",
+    "type": "library",
+    "version": "1.0.0",
     "keywords": [
         "avatec framework"
     ],
@@ -12,6 +13,10 @@
             "email": "biuro@avatec.pl"
         }
     ],
+    "support": {
+        "issues": "https://github.com/avatec/framework/issues",
+        "forum": "https://github.com/avatec/framework/discussions"
+    },
     "require": {
         "php": "^8.0"
     },
