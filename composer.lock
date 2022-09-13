@@ -4,8 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2aa3232a04a1250fadf4f1f2a4fe3d3",
-    "packages": [],
+    "content-hash": "0227c9e24d27ebf0a0178e4f729152f1",
+    "packages": [
+        {
+            "name": "avatec/framework",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avatec/framework.git",
+                "reference": "6f5e70b81ff3222f99b60d840802255c58db5d01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avatec/framework/zipball/6f5e70b81ff3222f99b60d840802255c58db5d01",
+                "reference": "6f5e70b81ff3222f99b60d840802255c58db5d01",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grzegorz Miskiewicz",
+                    "email": "biuro@avatec.pl"
+                }
+            ],
+            "description": "Avatec framework",
+            "keywords": [
+                "avatec framework"
+            ],
+            "support": {
+                "forum": "https://github.com/avatec/framework/discussions",
+                "issues": "https://github.com/avatec/framework/issues",
+                "source": "https://github.com/avatec/framework/tree/1.0.0"
+            },
+            "time": "2022-09-13T15:56:24+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
