@@ -5,7 +5,7 @@
     "keywords": [
         "avatec framework"
     ],
-    "license": "LGPL-3.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Grzegorz Miskiewicz",
@@ -24,5 +24,9 @@
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
+    },
+    "minimum-stability": "dev",
+    "repositories": {
+        "packagist": true
     }
 }
