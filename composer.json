@@ -1,37 +1,34 @@
 {
-    "name": "avatec/framework",
-    "description": "Avatec framework",
-    "type": "library",
-    "version": "1.0.0",
-    "keywords": [
-        "avatec framework"
-    ],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Grzegorz Miskiewicz",
-            "email": "biuro@avatec.pl"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/avatec/framework/issues",
-        "forum": "https://github.com/avatec/framework/discussions"
-    },
-    "require": {
-        "php": "^8.0"
-    },
-    "autoload": {
-        "classmap": [
-            "src/"
-        ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
-    "minimum-stability": "dev",
-    "repositories": {
-        "packagist": true
+  "name": "avatec/framework",
+  "description": "Avatec framework",
+  "type": "library",
+  "version": "1.0.0",
+  "keywords": [
+    "avatec framework"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Grzegorz Miskiewicz",
+      "email": "biuro@avatec.pl"
     }
+  ],
+  "support": {
+    "issues": "https://github.com/avatec/framework/issues",
+    "forum": "https://github.com/avatec/framework/discussions"
+  },
+  "require": {
+    "php": "^8.0"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
 }

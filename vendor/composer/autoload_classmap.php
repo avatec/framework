@@ -7,4 +7,13 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'Core\\Assets' => $baseDir . '/src/core/assets.php',
+    'Core\\Backend\\Navigation' => $baseDir . '/src/core/backend/navigation.php',
+    'Core\\Cache' => $baseDir . '/src/core/cache.php',
+    'Core\\Error' => $baseDir . '/src/core/error.php',
+    'Core\\Form' => $baseDir . '/src/core/form.php',
+    'Core\\InstagramBasicAPI' => $baseDir . '/src/core/instagrambasicapi.php',
+    'Core\\InstagramPlugin' => $baseDir . '/src/core/instagramplugin.php',
+    'Core\\Request' => $baseDir . '/src/core/request.php',
+    'Core\\Wysiwyg' => $baseDir . '/src/core/wysiwyg.php',
 );
