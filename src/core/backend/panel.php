@@ -24,6 +24,11 @@ class Panel
         return $this->{'_' . $method}(...$args);
     }
 
+    public static function getTitle()
+    {
+        return self::$title;
+    }
+
     public static function setTitle( string $title )
     {
         self::$title = $title;
