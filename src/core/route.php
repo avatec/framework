@@ -34,10 +34,8 @@ class Route
     ];
 
     private $config;
-    public function __construct( $config )
+    public function __construct()
     {
-        $this->config = $config;
-
         $this->get_path();
     }
 
