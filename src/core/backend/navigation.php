@@ -108,7 +108,9 @@ class Navigation
 		$menu = self::$menu;
 
 		usort(self::$menu, function($a,$b) {
-			return $a['priority']-$b['priority'];
+            if(!empty( $a['priority'] ) && !empty( $b['priority'] )) {
+                return $a['priority']-$b['priority'];
+            }
 		});
 
 		global $app_admin_url;
