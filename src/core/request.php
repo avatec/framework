@@ -41,6 +41,10 @@ class Request
 
     public function clean( $data )
     {
+        if(empty( $data )) {
+            return;
+        }
+        
         if (is_array($data)) {
             foreach ($data as $key => $value) {
                 unset($data[$key]);
