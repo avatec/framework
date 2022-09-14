@@ -45,7 +45,7 @@ class Language
         }
 
         // Strona internetowa
-        if ($route->isAdmin == false) {
+        if ($route->isBackend == false) {
             if (isset($_COOKIE['lng'])) {
                 self::$selected = $_COOKIE['lng'];
             }
@@ -64,7 +64,7 @@ class Language
         }
 
         // Panel administracyjny
-        if ($route->isAdmin == true) {
+        if ($route->isBackend == true) {
             if (isset($_COOKIE['lng_admin'])) {
                 self::$selected_admin = $_COOKIE['lng_admin'];
                 //$_SESSION['lng_admin']['code'] = self::$selected_admin;
@@ -80,7 +80,7 @@ class Language
     {
         global $route;
 
-        if ($route->isAdmin == false) {
+        if ($route->isBackend == false) {
             return self::$selected;
         } else {
             return self::$selected_admin;
@@ -111,13 +111,13 @@ class Language
         global $route;
 
         // Strona internetowa
-        if ($route->isAdmin == false) {
+        if ($route->isBackend == false) {
             self::$selected = $code;
             setcookie('lng', self::$selected, time() + 3600, '/');
         }
 
         // Panel administracyjny
-        if ($route->isAdmin == true) {
+        if ($route->isBackend == true) {
             self::$selected_admin = $code;
             setcookie('lng_admin', self::$selected_admin, time() + 3600, '/');
         }
@@ -217,7 +217,7 @@ class Language
         global $route;
 
         // Strona internetowa
-        if (isset($route->isAdmin) && $route->isAdmin == false) {
+        if (isset($route->isBackend) && $route->isBackend == false) {
             $_SESSION['lng'] = array(
                 'code' => self::$selected,
                 'translate' => self::$lang
@@ -225,7 +225,7 @@ class Language
         }
 
         // Panel administracyjny
-        if (isset($route->isAdmin) && $route->isAdmin == true) {
+        if (isset($route->isBackend) && $route->isBackend == true) {
             $_SESSION['lng_admin'] = array(
                 'code' => self::$selected_admin,
                 'translate' => self::$lang
