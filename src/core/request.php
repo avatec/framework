@@ -53,4 +53,14 @@ class Request
 
         return $data;
     }
+
+    public static function redirect( string $url, int $code = 301 )
+    {
+        if (!is_null( $code )) {
+            header("HTTP/1.1 {$code} See Other");
+        }
+
+        header("Location: " . $url);
+        exit;
+    }
 }
