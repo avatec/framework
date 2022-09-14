@@ -183,4 +183,22 @@ class Common
 
         return false;
     }
+
+    public static function getCountry( string $code2 )
+    {
+        global $app_path;
+        $cl = file_get_contents($app_path . 'include/json/eu-' . Language::get_selected() . '.json');
+        $cl = json_decode( $cl, true );
+        if(!empty( $cl )) {
+            foreach( $cl as $code=>$name ) {
+                if( $code == $code2) {
+                    return $name;
+                }
+
+                if( $code2 == $name ) {
+                    return $code;
+                }
+            }
+        }
+    }
 }
