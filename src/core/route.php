@@ -76,7 +76,7 @@ class Route
                 $this->isMain = true;
             break;
 
-            case "admin":
+            case "backend":
                 $this->isAdmin = true;
             break;
 
