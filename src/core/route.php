@@ -12,10 +12,7 @@ class Route
     public $results = array();
 
     public $error_code = null;
-
-    // Jeżeli ścieżka zawiera /admin/
     public $isBackend 	= false;
-
     // Jeżeli jest to główna strona
     public $isMain		= false;
     public $isApi       = false;
@@ -36,11 +33,11 @@ class Route
         ':any' => '(.+)'
     ];
 
-    public function __construct($catalog = null)
+    private $config;
+    public function __construct( $config )
     {
-        if (!is_null($catalog)) {
-            $this->catalog = $catalog;
-        }
+        $this->config = $config;
+
         $this->get_path();
     }
 
@@ -70,9 +67,9 @@ class Route
         }
 
         $this->num = count($this->path_array);
-        global $admin_folder;
+        global $backendFolder;
         if ($check_path == $backendFolder) {
-            $this->isAdmin = true;
+            $this->isBackend = true;
         }
 
         switch ($check_path) {
