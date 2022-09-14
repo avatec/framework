@@ -39,7 +39,7 @@ class Request
         }
     }
 
-    public function clean($data)
+    public function clean( array $data )
     {
         if (is_array($data)) {
             foreach ($data as $key => $value) {
