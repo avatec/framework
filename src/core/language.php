@@ -46,14 +46,14 @@ class Language
 
         // Strona internetowa
         if ($route->isBackend == false) {
-            if (isset($_COOKIE['lng'])) {
-                self::$selected = $_COOKIE['lng'];
+            if (isset($_COOKIE['frontendLanguage'])) {
+                self::$selected = $_COOKIE['frontendLanguage'];
             }
 
             self::change($route->language);
 
-            if (!empty($_SESSION['lng']['code'])) {
-                self::$selected = $_SESSION['lng']['code'];
+            if (!empty($_SESSION['frontendLanguage']['code'])) {
+                self::$selected = $_SESSION['frontendLanguage']['code'];
             } else {
                 if (!empty(self::$selected)) {
                     self::change(self::$selected);
@@ -65,9 +65,9 @@ class Language
 
         // Panel administracyjny
         if ($route->isBackend == true) {
-            if (isset($_COOKIE['lng_admin'])) {
-                self::$selected_admin = $_COOKIE['lng_admin'];
-                //$_SESSION['lng_admin']['code'] = self::$selected_admin;
+            if (isset($_COOKIE['backendLanguage'])) {
+                self::$selected_admin = $_COOKIE['backendLanguage'];
+                //$_SESSION['backendLanguage']['code'] = self::$selected_admin;
             }
 
             if (empty(self::$selected_admin)) {
@@ -113,13 +113,13 @@ class Language
         // Strona internetowa
         if ($route->isBackend == false) {
             self::$selected = $code;
-            setcookie('lng', self::$selected, time() + 3600, '/');
+            setcookie('frontendLanguage', self::$selected, time() + 3600, '/');
         }
 
         // Panel administracyjny
         if ($route->isBackend == true) {
             self::$selected_admin = $code;
-            setcookie('lng_admin', self::$selected_admin, time() + 3600, '/');
+            setcookie('backendLanguage', self::$selected_admin, time() + 3600, '/');
         }
 
         self::update();
@@ -218,7 +218,7 @@ class Language
 
         // Strona internetowa
         if (isset($route->isBackend) && $route->isBackend == false) {
-            $_SESSION['lng'] = array(
+            $_SESSION['frontendLanguage'] = array(
                 'code' => self::$selected,
                 'translate' => self::$lang
             );
@@ -226,7 +226,7 @@ class Language
 
         // Panel administracyjny
         if (isset($route->isBackend) && $route->isBackend == true) {
-            $_SESSION['lng_admin'] = array(
+            $_SESSION['backendLanguage'] = array(
                 'code' => self::$selected_admin,
                 'translate' => self::$lang
             );
