@@ -14,7 +14,7 @@ class Route
     public $error_code = null;
 
     // Jeżeli ścieżka zawiera /admin/
-    public $isAdmin 	= false;
+    public $isBackend 	= false;
 
     // Jeżeli jest to główna strona
     public $isMain		= false;
@@ -70,14 +70,14 @@ class Route
         }
 
         $this->num = count($this->path_array);
+        global $admin_folder;
+        if ($check_path == $backendFolder) {
+            $this->isAdmin = true;
+        }
 
         switch ($check_path) {
             case "/":
                 $this->isMain = true;
-            break;
-
-            case "backend":
-                $this->isAdmin = true;
             break;
 
             case "cron":
