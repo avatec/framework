@@ -64,9 +64,9 @@ class Common
 
     public static function read( $id, $array, $label = 'primary' )
 	{
-        if(is_string( $array )) {
-            $array = 'get' . ucfirst( $array );
-            $data = self::{$array}();
+        if( !empty( $array ) && !is_array( $array )) {
+            $data = get_class_vars( get_class(  ) );
+            $array = $data['_' . $array];
         }
 
         if(is_array( $array )) {
