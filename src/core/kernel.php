@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+use Modules\Admins\Backend\Admins;
+
 class Kernel
 {
     public static $tpl;
@@ -15,14 +17,6 @@ class Kernel
     public static $meta_keywords;
     public static $meta_index = false;
     public static $meta_follow = false;
-
-    public static $admin_menu;
-    public static $CkEditor = true;
-    public static $GoogleMaps = false;
-    public static $CancelButton = null;
-    public static $ModuleName = "Pulpit";
-
-    public static $TopButtons = [];
 
 
     public static function changeLog()
@@ -344,7 +338,7 @@ class Kernel
             $account = ['0','1'];
         }
 
-        if ((strstr(Modules\Admins::$auth['access'], $module) != true) and (in_array(Modules\Admins::$auth['type'], $account) !== true)) {
+        if ((strstr(Admins::$auth['access'], $module) != true) and (in_array(Admins::$auth['type'], $account) !== true)) {
             Kernel::setMessage("ERROR", "Dostęp zabroniony dla Twojego konta");
             \Core\Request::redirect($app_admin_url . "start.html");
         } else {
