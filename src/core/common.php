@@ -201,4 +201,9 @@ class Common
             }
         }
     }
+
+    public static function currency( float $amount )
+    {
+        return str_replace(".", ",", sprintf("%2.2f", $amount));
+    }
 }

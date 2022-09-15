@@ -109,11 +109,6 @@ class Kernel
         }
     }
 
-    public static function currency($amount)
-    {
-        return str_replace(".", ",", sprintf("%2.2f", $amount));
-    }
-
     public static function html_decode($string)
     {
         return html_entity_decode(html_entity_decode($string));
