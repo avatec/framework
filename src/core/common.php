@@ -14,28 +14,28 @@ class Common
 	];
 
     public static $_visibility = [
-        ['id' => 0, 'name' => 'niewidoczne', 'class' => 'danger'],
-        ['id' => 1, 'name' => 'widoczne', 'class' => 'success']
+        ['id' => 0, 'name' => 'niewidoczne', 'label' => 'danger'],
+        ['id' => 1, 'name' => 'widoczne', 'label' => 'success']
     ];
 
     public static $_truefalse = [
-        ['id' => 0, 'name' => 'nie', 'class' => 'success'],
-        ['id' => 1, 'name' => 'tak', 'class' => 'danger']
+        ['id' => 0, 'name' => 'nie', 'label' => 'success'],
+        ['id' => 1, 'name' => 'tak', 'label' => 'danger']
     ];
 
     public static $_status = [
-        ['id' => 0, 'name' => 'wyłączone', 'class' => 'danger', 'tooltip' => 'Pozycja została wyłączona i nie będzie dostępna'],
-        ['id' => 1, 'name' => 'włączone', 'class' => 'success', 'tooltip' => 'Pozycja jest włączona i dostępna']
+        ['id' => 0, 'name' => 'wyłączone', 'label' => 'danger', 'tooltip' => 'Pozycja została wyłączona i nie będzie dostępna'],
+        ['id' => 1, 'name' => 'włączone', 'label' => 'success', 'tooltip' => 'Pozycja jest włączona i dostępna']
     ];
 
     public static $_metaindex = [
-        ['id' => 0, 'name' => 'noindex', 'class' => 'danger', 'tooltip' => 'Indeksowanie zostało wyłączone'],
-        ['id' => 1, 'name' => 'index', 'class' => 'success', 'tooltip' => 'Indeksowanie jest włączone']
+        ['id' => 0, 'name' => 'noindex', 'label' => 'danger', 'tooltip' => 'Indeksowanie zostało wyłączone'],
+        ['id' => 1, 'name' => 'index', 'label' => 'success', 'tooltip' => 'Indeksowanie jest włączone']
     ];
 
     public static $_metafollow = [
-        ['id' => 0, 'name' => 'nofollow', 'class' => 'danger', 'tooltip' => 'Podążanie za linkami zostało wyłączone'],
-        ['id' => 1, 'name' => 'follow', 'class' => 'success', 'tooltip' => 'Podążanie za linkami jest włączone']
+        ['id' => 0, 'name' => 'nofollow', 'label' => 'danger', 'tooltip' => 'Podążanie za linkami zostało wyłączone'],
+        ['id' => 1, 'name' => 'follow', 'label' => 'success', 'tooltip' => 'Podążanie za linkami jest włączone']
     ];
 
 /**
