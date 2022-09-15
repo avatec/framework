@@ -128,6 +128,9 @@ class Navigation
 
         $html[] = '<ul class="main">';
         foreach (self::$menu as $k=>$i) {
+            if(empty($i['name'])) {
+                continue;
+            }
             if ((in_array($i['access'], $user_access) == true) or ($user_access[0] == '')) {
                 if (!empty($i['label'])) {
                     $html[] = '<h3 class="menu-separator">' . $i['name'] . '</h3>';
@@ -136,7 +139,7 @@ class Navigation
                 } else {
                     $html[] = '<li rel="' . $k . '">';
                     $html[] = '<a class="' . (!empty($i['submenu']) ? 'has_sub' : '') . '" href="' . (!empty($i['path']) ? $app_admin_url . $i['path'] : '#') . '">';
-                    $html[] = '<i class="fa ' . (!empty($i['icon']) ? $i['icon'] : 'fa-file') . '"></i> <span>'.$i['name'].'</span></a>';
+                    $html[] = '<i class="fa ' . (!empty($i['icon']) ? $i['icon'] : 'fa-file') . '"></i> <span>' . $i['name'] . '</span></a>';
                     if (!empty($i['submenu'])) {
                         $html[] = '<ul>';
                         foreach ($i['submenu'] as $si) {
