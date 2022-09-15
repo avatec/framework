@@ -44,6 +44,16 @@ class Common
         return self::$activity;
     }
 
+    public static $_metaindex = [
+        ['id' => 0, 'name' => 'noindex', 'class' => 'danger', 'tooltip' => 'Indeksowanie zostało wyłączone'],
+        ['id' => 1, 'name' => 'index', 'class' => 'success', 'tooltip' => 'Indeksowanie jest włączone']
+    ];
+
+    public static $_metafollow = [
+        ['id' => 0, 'name' => 'nofollow', 'class' => 'danger', 'tooltip' => 'Podążanie za linkami zostało wyłączone'],
+        ['id' => 1, 'name' => 'follow', 'class' => 'success', 'tooltip' => 'Podążanie za linkami jest włączone']
+    ];
+
 /**
  *  Odczytywanie domyślnych wartości
  *  @param string $id
