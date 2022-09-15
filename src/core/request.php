@@ -67,4 +67,36 @@ class Request
         header("Location: " . $url);
         exit;
     }
+
+    public static function rewrite( string $text ): string
+    {
+        $string = strtolower($text);
+        $polskie = array(',', ' - ',' ','ę', 'Ę', 'ó', 'Ó', 'Ą', 'ą', 'Ś', 's', 'ł', 'Ł', 'ż', 'Ż', 'Ź', 'ź', 'ć', 'Ć', 'ń', 'Ń','-',"'","/","?", '"', ":", 'ś', '!','.', '&', '&amp;', '#', ';', '[',']','domena.pl', '(', ')', '`', '%', '”', '„', '…');
+        $miedzyn = array('-','-','-','e', 'e', 'o', 'o', 'a', 'a', 's', 's', 'l', 'l', 'z', 'z', 'z', 'z', 'c', 'c', 'n', 'n','-',"","","","","",'s','','', '', '', '', '', '', '', '', '', '', '', '', '');
+        $string = str_replace($polskie, $miedzyn, $string);
+
+        $string = preg_replace('/[\-]+/', '-', $string);
+        $string = trim($string, '-');
+        $string = stripslashes($string);
+        $string = urlencode($string);
+
+        $encoded = array(
+            "%E4%98","%E4%99","%E3%B3","%E3%93","%E4%85","%E4%84",
+            "%E5%9B","%E5%9A","%E5%82","%E5%81","%E5%BE","%E5%BB",
+            "%E5%BA","%E5%B9","%E4%87","%E4%86","%E5%84","%E5%83"
+        );
+        $new = array(
+            "e","e","o","o","a","a",
+            "s","s","l","l","z","z",
+            "z","z","c","c","n","n"
+        );
+
+        $string = str_replace($encoded, $new, $string);
+
+        if (strlen($string > 50)) {
+            return substr($string, 0, 50);
+        }
+
+        return $string;
+    }
 }
