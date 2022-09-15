@@ -2,47 +2,31 @@
 
 class Common
 {
-    public static $onoff = [
+    public static $_onoff = [
 		['id' => 0, 'name' => 'wyłączone', 'label' => 'danger'],
 		['id' => 1, 'name' => 'włączone', 'label' => 'success']
 	];
 
-    public static function getOnOff()
-    {
-        return self::$onoff;
-    }
-
-	public static $truefalse = [
-		['id' => 0, 'name' => 'nie', 'label' => 'danger'],
-		['id' => 1, 'name' => 'tak', 'label' => 'success']
-	];
-
-    public static function getTrueFalse()
-    {
-        return self::$truefalse;
-    }
-
-	// Widoczność (int) id
-	public static $visibility = [
-		['id' => 0, 'name' => '<span class="fa fa-times"></span> ukryte', 'label' => 'danger'],
-		['id' => 1, 'name' => '<span class="fa fa-check"></span> widoczne', 'label' => 'success']
-	];
-
-    public static function getVisibility()
-    {
-        return self::$visibility;
-    }
-
 	// Aktywność (int) id
-	public static $activity = [
+	public static $_activity = [
 		['id' => 0, 'name' => 'nieaktywny', 'label' => 'warning'],
 		['id' => 1, 'name' => 'aktywny', 'label' => 'success']
 	];
 
-    public static function getActivity()
-    {
-        return self::$activity;
-    }
+    public static $_visibility = [
+        ['id' => 0, 'name' => 'niewidoczne', 'class' => 'danger'],
+        ['id' => 1, 'name' => 'widoczne', 'class' => 'success']
+    ];
+
+    public static $_truefalse = [
+        ['id' => 0, 'name' => 'nie', 'class' => 'success'],
+        ['id' => 1, 'name' => 'tak', 'class' => 'danger']
+    ];
+
+    public static $_status = [
+        ['id' => 0, 'name' => 'wyłączone', 'class' => 'danger', 'tooltip' => 'Pozycja została wyłączona i nie będzie dostępna'],
+        ['id' => 1, 'name' => 'włączone', 'class' => 'success', 'tooltip' => 'Pozycja jest włączona i dostępna']
+    ];
 
     public static $_metaindex = [
         ['id' => 0, 'name' => 'noindex', 'class' => 'danger', 'tooltip' => 'Indeksowanie zostało wyłączone'],
