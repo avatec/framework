@@ -24,8 +24,5 @@
   "minimum-stability": "stable",
   "config": {
       "sort-packages": true
-  },
-  "require": {
-    "avatec/framework": "^1.0"
   }
 }
