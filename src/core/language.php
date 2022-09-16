@@ -149,14 +149,14 @@ class Language
             }
             return self::replace($text, $replace);
         } else {
-            $r = Db::row("value", "cms_translates", "WHERE module='" . $module . "' AND code='" . self::get_selected() . "' AND slug='" . $translate . "'");
+            $r = Db::row("value", "translates", "WHERE module='" . $module . "' AND code='" . self::get_selected() . "' AND slug='" . $translate . "'");
             if (!empty($r['value'])) {
 
                 return self::replace(stripslashes($r['value']), $replace);
             } else {
                 foreach (self::$available as $code=>$name) {
-                    if (Db::check("cms_translates", "module='" . $module . "' AND code='" . $code . "' AND slug='" . $translate . "'") == false) {
-                        $r = Db::insert("cms_translates", "null,
+                    if (Db::check("translates", "module='" . $module . "' AND code='" . $code . "' AND slug='" . $translate . "'") == false) {
+                        $r = Db::insert("translates", "null,
 						'" . $module . "',
 						'" . $code . "',
 						'" . addslashes($translate) . "',
