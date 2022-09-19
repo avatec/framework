@@ -1,5 +1,7 @@
 <?php namespace Core;
 
+use HTMLPurifier;
+
 class Common
 {
     public static $_onoff = [
@@ -121,7 +123,7 @@ class Common
         $htmlconfig->set('AutoFormat.RemoveEmpty.RemoveNbsp', true); // remove empty, even if it contains an &nbsp;
         $htmlconfig->set('AutoFormat.AutoParagraph', true); // remove empty tag pairs
 
-        $purifier = new \HTMLPurifier($htmlconfig);
+        $purifier = new HTMLPurifier($htmlconfig);
         $text = $purifier->purify($text);
 
         return $text;
@@ -199,5 +201,12 @@ class Common
     public static function currency( float $amount )
     {
         return str_replace(".", ",", sprintf("%2.2f", $amount));
+    }
+
+    public static function getMimeForIcon()
+    {
+        return [
+            'image/png', 'image/gif', 'image/svg+xml'
+        ];
     }
 }
