@@ -220,7 +220,7 @@ class Db
  * @param string $conditions (optional)
  * @return int
  */
-    public static function lastPriority( string $table, $conditions = null ): int
+    public static function getLastPriority( string $table, $conditions = null ): int
     {
         $query = "SELECT priority FROM " . $table . 
             (!empty( $conditions ) ? " WHERE " . $conditions : "") . " ORDER BY priority DESC LIMIT 0,1";
