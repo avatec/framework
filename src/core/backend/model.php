@@ -8,9 +8,11 @@ class Model
     private $post, $get, $files, $any, $input;
     private $config, $route;
 
+    const APP_PATH, APP_URL;
+
     public function __construct()
     {
-        global $config, $route, $request;
+        global $config, $route, $request, $app_path, $app_url;
 
         $this->input = (!empty( $request->input ) ? $request->input : null);
         $this->post = (!empty( $request->post ) ? $request->post : null);
@@ -21,6 +23,9 @@ class Model
 
         $this->config = $config;
         $this->route = $route;
+
+        self::APP_PATH = $app_path;
+        self::APP_URL = $app_url;
     }
 
     public static function getTable(): string
