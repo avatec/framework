@@ -214,6 +214,30 @@ class Db
         return $result;
     }
 
+/**
+ * Funkcja zwaraca kolejny numer dla kolejności
+ * @param string $table
+ * @param string $conditions (optional)
+ * @return int
+ */
+    public static function lastPriority( string $table, $conditions = null ): int
+    {
+        $query = "SELECT priority FROM " . $table . 
+            (!empty( $conditions ) ? " WHERE " . $conditions : "") . " ORDER BY priority DESC LIMIT 0,1";
+
+        $result  = self::$instance->query( $query );
+        if (!empty(self::$instance->error)) {
+            throw new Exception('Error MySQL: ' . $query . " - returns: " . self::$instance->error);
+        }
+
+        $result = $result->fetch_assoc();
+        if(!empty( $result['priority'] )) {
+            return $result['priority']++;
+        }
+
+        return 1;
+    }
+
     public static function check($t, $w, $silent = false)
     {
         if (!isset(self::$instance)) {
