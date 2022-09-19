@@ -8,7 +8,8 @@ class Model
     private $post, $get, $files, $any, $input;
     private $config, $route;
 
-    const APP_PATH, APP_URL;
+    const APP_PATH;
+    const APP_URL;
 
     public function __construct()
     {
