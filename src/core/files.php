@@ -257,4 +257,19 @@ class Files
 			return ['error' => true, 'msg' => Language::get('cms' , 'Wystąpił błąd podczas uploadu:') . implode( self::$Error )];
 		}
     }
+
+	private static $uploadErrorMessages = [
+		1 => 'uploadowany plik przekracza dyrektywe upload_max_filesize w php.ini',
+		2 => 'uploadowany plik przekracza dyrektywe MAX_FILE_SIZE',
+		3 => 'uploadowany plik nie został poprawnie wgrany - błąd numer 3',
+		4 => 'brak pliku',
+		6 => 'brak dostępu do katalogu tymczasowego na serwerze - błąd numer 6',
+		7 => 'nie udało się zapisać na dysku - błąd numer 7',
+		8 => 'uploadowanie przerwane przez rozszerzenie - błąd numer 8 (UPLOAD_ERR_EXTENSION)'
+	];
+
+	public static function getErrorMessage( int $errno ): string
+	{
+		return (!empty( self::$uploadErrorMessages[$errno] ) ? self::$uploadErrorMessages[$errno] : false);
+	}
 }
