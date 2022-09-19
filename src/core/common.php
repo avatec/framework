@@ -199,7 +199,9 @@ class Common
     }
 
 /**
- * Konwertuje wartość float i zwraca wartość walutową 
+ * Konwertuje wartość float i zwraca wartość walutową
+ * np. 199.99 zwraca 199,99
+ * @return string
  */
     public static function currency( float $amount ): string
     {
