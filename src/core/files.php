@@ -1,8 +1,9 @@
 <?php namespace Core;
 
+use Core\Image;
+use Core\Kernel;
+use Core\Language;
 use \Verot\Upload\Upload;
-use Core\Image as Image;
-use \Language;
 
 class Files
 {
@@ -117,7 +118,7 @@ class Files
 			if($file['error']==7) { self::$Error[] = "nie udało się zapisać na dysku - błąd numer 7"; }
 			if($file['error']==8) { self::$Error[] = "uploadowanie przerwane przez rozszerzenie - błąd numer 8 (UPLOAD_ERR_EXTENSION)"; }
 
-			$handle = new \Verot\Upload\Upload( $file );
+			$handle = new Upload( $file );
 			if ($handle->uploaded)
 			{
 				if( !empty( $o['allowed_mime'] )) {
@@ -134,7 +135,7 @@ class Files
                     $handle->file_auto_rename	= true;
                 }
 
-				\Kernel::log('core.files.log' , 'Src mime: ' . $handle->file_src_mime);
+				Kernel::log('core.files.log' , 'Src mime: ' . $handle->file_src_mime);
 
 				if(in_array($handle->file_src_mime,['image/png','image/jpg','image/jpeg','image/gif','image/*']) == true ) {
 					if(!empty( $o['convert'] ) && ($handle->image_src_type != 'jpg' || $handle->image_src_type != 'jpeg')) {
