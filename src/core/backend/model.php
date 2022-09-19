@@ -1,14 +1,14 @@
 <?php namespace Core\Backend;
-
 class Model
 {
     public static $Error = [];
-    public $post, $get, $files, $any, $input;
-    public $config;
+    private static $table = '';
+    private $post, $get, $files, $any, $input;
+    private $config, $route;
 
     public function __construct()
     {
-        global $config, $request;
+        global $config, $route, $request;
 
         $this->input = (!empty( $request->input ) ? $request->input : null);
         $this->post = (!empty( $request->post ) ? $request->post : null);
@@ -18,5 +18,21 @@ class Model
         $this->server = $request->server;
 
         $this->config = $config;
+        $this->route = $route;
+    }
+
+    public static function getTable(): string
+    {
+        return self::$table;
+    }
+
+    public static function getErrors(): array
+    {
+        return !empty( self::$Error ) ? self::$Error : [];
+    }
+
+    public static function hasErrors(): bool
+    {
+        return !empty( self::$Error ) ? true : false;
     }
 }
