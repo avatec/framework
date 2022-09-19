@@ -203,7 +203,7 @@ class Common
         return str_replace(".", ",", sprintf("%2.2f", $amount));
     }
 
-    public static function getMimeForIcon()
+    public static function getMimeForIcons()
     {
         return [
             'image/png', 'image/gif', 'image/svg+xml'
