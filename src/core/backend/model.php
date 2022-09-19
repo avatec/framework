@@ -28,6 +28,11 @@ class Model
         return self::$table;
     }
 
+    public static function getTablei18(): string
+    {
+        return self::$table;
+    }
+
     public static function getErrors(): array
     {
         return !empty( self::$Error ) ? self::$Error : [];
