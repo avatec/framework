@@ -9,7 +9,6 @@ namespace Core;
 class Error
 {
     public static $mode = 'html';
-    public static $json = false;
 
     /**
      *  Wyświetlenie błedu
