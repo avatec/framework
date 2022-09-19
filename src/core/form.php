@@ -276,7 +276,7 @@ class Form
             (!empty($o['readonly']) ? ' readonly' : '') .
             (!empty($o['disabled']) ? ' disabled' : '') .
             (!empty($o['multiple']) ? ' multiple' : '') .
-            (!empty($o['accept']) ? ' accept="' . $o['accept'] . '"' : '') .
+            (!empty($o['accept']) ? ' accept="' . (is_array($o['accept']) ? implode(",",$o['accept']) : $o['accept']) . '"' : '') .
             (!empty($o['data']) ? self::build_data($o['data']) : '') . '/>';
 
         return implode($html);
