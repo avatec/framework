@@ -29,9 +29,23 @@ class Model
         self::$app_url = $app_url;
     }
 
+    public static function setTable( string $table )
+    {
+        self::$table = $table;
+
+        return new self;
+    }
+
     public static function getTable(): string
     {
         return self::$table;
+    }
+
+    public static function setTablei18( string $table )
+    {
+        self::$table_i18 = $table;
+
+        return new self;
     }
 
     public static function getTablei18(): string
