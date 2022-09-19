@@ -8,8 +8,7 @@ class Model
     private $post, $get, $files, $any, $input;
     private $config, $route;
 
-    const APP_PATH;
-    const APP_URL;
+    private static $app_path, $app_url;
 
     public function __construct()
     {
@@ -25,8 +24,8 @@ class Model
         $this->config = $config;
         $this->route = $route;
 
-        self::APP_PATH = $app_path;
-        self::APP_URL = $app_url;
+        self::$app_path = $app_path;
+        self::$app_url = $app_url;
     }
 
     public static function getTable(): string
