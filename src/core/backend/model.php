@@ -1,5 +1,5 @@
 <?php namespace Core\Backend;
-
+use Core\Request;
 use Core\Language;
 class Model
 {
@@ -13,7 +13,9 @@ class Model
 
     public function __construct()
     {
-        global $config, $route, $request, $app_path, $app_url;
+        global $config, $route, $app_path, $app_url;
+
+        $request = new Request();
 
         $this->input = (!empty( $request->input ) ? $request->input : null);
         $this->post = (!empty( $request->post ) ? $request->post : null);
