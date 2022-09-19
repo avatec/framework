@@ -203,7 +203,11 @@ class Common
         return str_replace(".", ",", sprintf("%2.2f", $amount));
     }
 
-    public static function getMimeForIcons()
+/**
+ * Zwraca mime dla ikon (png, gif, svg)
+ * @return array
+ */
+    public static function getMimeForIcons(): array
     {
         return [
             'image/png', 'image/gif', 'image/svg+xml'
