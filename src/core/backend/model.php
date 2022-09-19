@@ -6,7 +6,7 @@ class Model
     public static $Error = [];
     private static $table = '', $table_i18 = '';
     public $post, $get, $files, $any, $input;
-    private $config, $route;
+    protected $config, $route;
 
     public static $app_path, $app_url;
     public static $UploadPath, $UploadUrl;
