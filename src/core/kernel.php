@@ -330,10 +330,10 @@ class Kernel
         global $app_admin_url;
 
         if (is_null($account)) {
-            $account = ['0','1'];
+            $account = ['-1','1'];
         }
 
-        if ((strstr(Admins::$auth['access'], $module) != true) and (in_array(Admins::$auth['type'], $account) !== true)) {
+        if ((strstr(Admins::$auth['access'], $module) != true) && (in_array(Admins::$auth['type'], $account) !== true)) {
             Kernel::setMessage("ERROR", "Dostęp zabroniony dla Twojego konta");
             \Core\Request::redirect($app_admin_url . "start.html");
         } else {
