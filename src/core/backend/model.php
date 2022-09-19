@@ -8,7 +8,7 @@ class Model
     private $post, $get, $files, $any, $input;
     private $config, $route;
 
-    private static $app_path, $app_url;
+    protected static $app_path, $app_url;
     public static $UploadPath, $UploadUrl;
 
     public function __construct()
