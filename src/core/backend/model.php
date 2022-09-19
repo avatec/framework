@@ -4,7 +4,6 @@ use Core\Language;
 class Model
 {
     public static $Error = [];
-    private static $table = '', $table_i18 = '';
     public $post, $get, $files, $any, $input;
     protected $config, $route;
 
@@ -29,30 +28,6 @@ class Model
 
         self::$app_path = $app_path;
         self::$app_url = $app_url;
-    }
-
-    public static function setTable( string $table )
-    {
-        self::$table = $table;
-
-        return new self;
-    }
-
-    public static function getTable(): string
-    {
-        return self::$table;
-    }
-
-    public static function setTablei18( string $table )
-    {
-        self::$table_i18 = $table;
-
-        return new self;
-    }
-
-    public static function getTablei18(): string
-    {
-        return self::$table_i18;
     }
 
     public static function getErrors(): array
