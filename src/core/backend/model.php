@@ -60,6 +60,11 @@ class Model
         return !empty( self::$Error ) ? self::$Error : [];
     }
 
+    public static function setError( string $message )
+    {
+        self::$Error[] = $message;
+    }
+
     public static function hasErrors(): bool
     {
         return !empty( self::$Error ) ? true : false;
