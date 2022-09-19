@@ -198,7 +198,10 @@ class Common
         }
     }
 
-    public static function currency( float $amount )
+/**
+ * Konwertuje wartość float i zwraca wartość walutową 
+ */
+    public static function currency( float $amount ): string
     {
         return str_replace(".", ",", sprintf("%2.2f", $amount));
     }
