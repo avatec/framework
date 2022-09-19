@@ -5,10 +5,10 @@ class Model
 {
     public static $Error = [];
     private static $table = '', $table_i18 = '';
-    private $post, $get, $files, $any, $input;
+    public $post, $get, $files, $any, $input;
     private $config, $route;
 
-    protected static $app_path, $app_url;
+    public static $app_path, $app_url;
     public static $UploadPath, $UploadUrl;
 
     public function __construct()
