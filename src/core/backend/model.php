@@ -1,4 +1,6 @@
 <?php namespace Core\Backend;
+
+use Core\Language;
 class Model
 {
     public static $Error = [];
@@ -34,5 +36,10 @@ class Model
     public static function hasErrors(): bool
     {
         return !empty( self::$Error ) ? true : false;
+    }
+
+    public static function getCurrentLanguage(): string
+    {
+        return Language::get_selected();
     }
 }
