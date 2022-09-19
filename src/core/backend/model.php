@@ -4,7 +4,7 @@ use Core\Language;
 class Model
 {
     public static $Error = [];
-    private static $table = '';
+    private static $table = '', $table_i18 = '';
     private $post, $get, $files, $any, $input;
     private $config, $route;
 
@@ -30,7 +30,7 @@ class Model
 
     public static function getTablei18(): string
     {
-        return self::$table;
+        return self::$table_i18;
     }
 
     public static function getErrors(): array
