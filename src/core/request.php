@@ -52,6 +52,8 @@ class Request
                 $data[$this->clean($key)] = $this->clean($value);
             }
         } else {
+            $data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
+            $data = htmlentities($data, ENT_QUOTES, 'UTF-8');
             //$data = htmlspecialchars($data, ENT_COMPAT, 'UTF-8');
         }
 
