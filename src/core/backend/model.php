@@ -8,7 +8,7 @@ class Model
     protected $config, $route;
 
     public static $app_path, $app_url;
-    public static $UploadPath, $UploadUrl;
+    public static $UploadPath, $UploadUrl, $BlankImage;
 
     public function __construct()
     {
