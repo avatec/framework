@@ -5,20 +5,60 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
+    public static $Error = [];
+
     public static $address;
     public static $name;
     public static $subject;
     public static $text;
     public static $reply_to;
     public static $bcc;
-    public static $error;
     public static $attachment;
+
+    public static function setAddress( string $address, $name = null )
+    {
+        if( !is_null( $name )) {
+            self::$name = $name;
+        } else {
+            self::$name = $address;
+        }
+
+        self::$address = $address;
+        return new self;
+    }
+
+    public static function setSubject( string $subject )
+    {
+        self::$subject = $subject;
+        return new self;
+    }
+
+    public static function setAddReplyTo( string $address )
+    {
+        self::$reply_to = $address;
+        return new self;
+    }
+
+    public static function setBcc( string $address )
+    {
+        self::$bcc = $address;
+        return new self;
+    }
+
+    public static function setBody( string $body )
+    {
+        self::$text = $body;
+        return new self;
+    }
+
+    public static function getError()
+    {
+        return !empty( self::$Error ) ? self::$Error : null;
+    }
 
     public static function send()
     {
         global $app_path, $config;
-
-        //include_once $app_path . "vendor/phpmailer/phpmailer/src/PHPMailer.php";
 
         $m = new PHPMailer();
         // Debug
@@ -31,19 +71,13 @@ class Mail
         $m->FromName = $config['smtp_from'];
 
         if(!empty($config['smtp'])) {
-            //include_once $app_path . "vendor/phpmailer/phpmailer/src/SMTP.php";
-
             $m->Host = $config['smtp_host'];
             $m->Port = $config['smtp_port'];
 
             $m->IsSMTP();
             $m->Username = $config['smtp_username'];
             $m->Password = $config['smtp_password'];
-            if (!empty($config['smtp_auth'])) {
-                $m->SMTPAuth = true;
-            } else {
-                $m->SMTPAuth = false;
-            }
+            $m->SMTPAuth = !empty($config['smtp_auth']) ? true : false;
             if (!empty($config['smtp_ssl'])) {
                 $m->SMTPSecure = "ssl";
             }
@@ -80,7 +114,7 @@ class Mail
 
         $result = $m->send();
         if (!empty($m->ErrorInfo)) {
-            self::$error = $m->ErrorInfo;
+            self::$Error = $m->ErrorInfo;
         }
         return $result;
     }
@@ -90,7 +124,7 @@ class Mail
         if ($file['error'] == 0) {
             self::$attachment[] = array($file['tmp_name'], $file['name']);
         } else {
-            self::$error[] = "nie udało się załączyć pliku do wiadomości " . $file['name'];
+            self::$Error[] = "nie udało się załączyć pliku do wiadomości " . $file['name'];
         }
     }
 
