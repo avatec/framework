@@ -9,11 +9,15 @@ class Breadcrumb
     {
         $breadcrumb = self::get();
         if(!empty( $breadcrumb )) {
-            $html[] = '<ul class="breadcrumb">';
+            $html[] = '<ol class="breadcrumb">';
             foreach( $breadcrumb as $i ) {
-                $html[] = '<li class="item">' . $i['name'] . '</a>';
+                if (!empty($i['main'])){
+                    $html[] = '<li class="breadcrumb-item">' . $i['name'] . '</li>';
+                }else{
+                    $html[] = '<li class="breadcrumb-item active"><a href="' . $i['url']. '">' . $i['name'] . '</a></li>';
+                }
             }
-            $html[] = '</ul>';
+            $html[] = '</ol>';
 
             return implode("" , $html);
         }
