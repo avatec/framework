@@ -2,12 +2,14 @@
 
 namespace Core\Frontend;
 
+use \Exception;
+
 class Meta
 {
-    protected $title;
-    protected $description;
-    protected $index;
-    protected $follow;
+    protected static $title;
+    protected static $description;
+    protected static $index = false;
+    protected static $follow = false;
 
     /**
      *  Ustawienie meta danych
@@ -17,9 +19,12 @@ class Meta
      *  @param string $follow
      */
 
-    public function set($title, $description, $index = false, $follow = false)
+    public static function set($title, $description, $index = false, $follow = false)
     {
-        $this->setTitle($title)->setDescription($description)->setIndex($index)->setFollow($follow);
+        self::setTitle($title)
+            ::setDescription($description)
+            ::setIndex($index)
+            ::setFollow($follow);
     }
 
     /**
@@ -27,9 +32,9 @@ class Meta
      *  @return array
      */
 
-    public function get()
+    public static function get()
     {
-        if( empty( $this->title ) && empty( $this->description ) && empty( $this->index ) && empty( $this->follow )) {
+        if( empty( self::$title ) && empty( self::$description ) && empty( self::$index ) && empty( self::$follow )) {
             return [
                 'title' => '',
                 'description' => '',
@@ -39,10 +44,10 @@ class Meta
         }
 
         return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'index' => $this->index,
-            'follow' => $this->follow
+            'title' => self::$title,
+            'description' => self::$description,
+            'index' => self::$index,
+            'follow' => self::$follow
         ];
     }
 
@@ -52,11 +57,10 @@ class Meta
      *  @return object
      */
 
-    public function setTitle($title)
+    public static function setTitle($title)
     {
-        $this->title = $title;
-
-        return $this;
+        self::$title = $title;
+        return new self;
     }
 
     /**
@@ -65,10 +69,10 @@ class Meta
      *  @return object
      */
 
-    public function setDescription($description)
+    public static function setDescription($description)
     {
-        $this->description = $description;
-        return $this;
+        self::$description = $description;
+        return new self;
     }
 
     /**
@@ -77,15 +81,15 @@ class Meta
      *  @return object
      */
 
-    public function setIndex($index)
+    public static function setIndex($index)
     {
         $index = boolval( $index );
         if (is_bool($index) == true) {
-            $this->index = $index;
-            return $this;
+            self::$index = $index;
+            return new self;
         }
 
-        die('Core\Frontend\Meta::setFollow - parametr musi być typu boolean');
+        throw new Exception('Core\Frontend\Meta::setFollow - parametr musi być typu boolean');
     }
 
     /**
@@ -94,14 +98,14 @@ class Meta
      *  @return object
      */
 
-    public function setFollow($follow)
+    public static function setFollow($follow)
     {
         $follow = boolval( $follow );
         if (is_bool($follow) == true) {
-            $this->follow = $follow;
-            return $this;
+            self::$follow = $follow;
+            return new self;
         }
 
-        die('Core\Frontend\Meta::setFollow - parametr musi być typu boolean');
+        throw new Exception('Core\Frontend\Meta::setFollow - parametr musi być typu boolean');
     }
 }

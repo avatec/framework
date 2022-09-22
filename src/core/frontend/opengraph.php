@@ -4,25 +4,25 @@ namespace Core\Frontend;
 
 class Opengraph
 {
-    protected $title;
-    protected $description;
-    protected $image;
-    protected $imageType;
-    protected $type;
+    protected static $title;
+    protected static $description;
+    protected static $image;
+    protected static $imageType;
+    protected static $type;
 
     /**
      *  Pobranie meta danych
      *  @return array
      */
 
-    public function get()
+    public static function get()
     {
         return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'image' => $this->image,
-            'imageType' => (!empty( $this->imageType ) ? $this->imageType : ''),
-            'type' => (!empty( $this->type ) ? $this->type : 'website')
+            'title' => self::$title,
+            'description' => self::$description,
+            'image' => self::$image,
+            'imageType' => (!empty( self::$imageType ) ? self::$imageType : ''),
+            'type' => (!empty( self::$type ) ? self::$type : 'website')
         ];
     }
 
@@ -32,10 +32,10 @@ class Opengraph
      *  @return object
      */
 
-    public function setTitle($title)
+    public static function setTitle($title)
     {
-        $this->title = $title;
-        return $this;
+        self::$title = $title;
+        return new self;
     }
 
     /**
@@ -44,10 +44,10 @@ class Opengraph
      *  @return object
      */
 
-    public function setDescription($description)
+    public static function setDescription($description)
     {
-        $this->description = $description;
-        return $this;
+        self::$description = $description;
+        return new self;
     }
 
     /**
@@ -56,10 +56,10 @@ class Opengraph
      *  @return object
      */
 
-    public function setImage( $image )
+    public static function setImage( $image )
     {
-        $this->image = $image;
-        return $this;
+        self::$image = $image;
+        return new self;
     }
 
     /**
@@ -68,15 +68,15 @@ class Opengraph
      *  @return object
      */
 
-    public function setImageType( $path )
+    public static function setImageType( $path )
     {
-        $this->imageType = mime_content_type( $path );
-        return $this;
+        self::$imageType = mime_content_type( $path );
+        return new self;
     }
 
-    public function setType( $type )
+    public static function setType( $type )
     {
-        $this->type = $type;
-        return $this;
+        self::$type = $type;
+        return new self;
     }
 }
