@@ -62,6 +62,12 @@ class Opengraph
         return $this;
     }
 
+    /**
+     *  Ustawienie mime dla zdjęcia og
+     *  @param string $path
+     *  @return object
+     */
+
     public function setImageType( $path )
     {
         $this->imageType = mime_content_type( $path );
