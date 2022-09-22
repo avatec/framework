@@ -59,7 +59,12 @@ class Opengraph
     public function setImage( $image )
     {
         $this->image = $image;
-        $this->imageType = mime_content_type( $this->image );
+        return $this;
+    }
+
+    public function setImageType( $path )
+    {
+        $this->imageType = mime_content_type( $path );
         return $this;
     }
 
