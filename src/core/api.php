@@ -3,6 +3,18 @@
 class Api
 {
 /**
+ * Zwraca błędny result z kodem HTTP 400
+ * @param string $message
+ * @param array $additional (optional)
+ * @return array
+ */
+    public static function returnError( string $message, array $additional = null ): array
+    {
+        http_response_code(400);
+        return ['error' => ['message' => $message, $additional]];
+    }
+
+/**
  *  Weryfikacja authentyfikacji użytkownika na podstawie przesłanego przez HTTP_X_AUTHORIZATION
  *  Access Tokena
  *  @param string $user_token
