@@ -21,7 +21,12 @@ class Api
     public static function error( string $message, array $additional = null ): array
     {
         http_response_code(400);
-        return ['error' => ['message' => $message, $additional]];
+        $error = ['message' => $message];
+        if(!empty( $additional )) {
+            array_merge( $error, $additional );
+        }
+
+        return ['error' => $error];
     }
 
 /**
