@@ -3,6 +3,16 @@
 class Api
 {
 /**
+ * Zwraca randomowy token
+ * @param int $length określa ilość znaków
+ * @return string
+ */
+
+    public static function randomToken( int $length = 16 ): string
+    {
+        return bin2hex(openssl_random_pseudo_bytes( $length ));
+    }
+/**
  * Zwraca błędny result z kodem HTTP 400
  * @param string $message
  * @param array $additional (optional)
