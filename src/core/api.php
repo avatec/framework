@@ -23,7 +23,7 @@ class Api
         http_response_code(201);
         $success = ['message' => $message];
         if(!empty( $additional )) {
-            array_merge( $success, $additional );
+            $success = array_merge( $success, $additional );
         }
 
         return ['error' => $success];
@@ -40,7 +40,7 @@ class Api
         http_response_code(400);
         $error = ['message' => $message];
         if(!empty( $additional )) {
-            array_merge( $error, $additional );
+            $error = array_merge( $error, $additional );
         }
 
         return ['error' => $error];
