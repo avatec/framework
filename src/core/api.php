@@ -8,7 +8,7 @@ class Api
  * @param array $additional (optional)
  * @return array
  */
-    public static function returnError( string $message, array $additional = null ): array
+    public static function error( string $message, array $additional = null ): array
     {
         http_response_code(400);
         return ['error' => ['message' => $message, $additional]];
