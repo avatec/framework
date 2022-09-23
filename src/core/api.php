@@ -13,6 +13,23 @@ class Api
         return bin2hex(openssl_random_pseudo_bytes( $length ));
     }
 /**
+ * Zwraca poprawny result z kodem HTTP 201
+ * @param string $message
+ * @param array $additional (optional)
+ * @return array
+ */
+    public static function success( string $message, array $additional = null ): array
+    {
+        http_response_code(201);
+        $success = ['message' => $message];
+        if(!empty( $additional )) {
+            array_merge( $success, $additional );
+        }
+
+        return ['error' => $success];
+    }
+
+/**
  * Zwraca błędny result z kodem HTTP 400
  * @param string $message
  * @param array $additional (optional)
