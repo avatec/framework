@@ -70,7 +70,9 @@ class Opengraph
 
     public static function setImageType( $path )
     {
-        self::$imageType = mime_content_type( $path );
+        if( file_exists( $path ) && !is_dir( $path )) {
+            self::$imageType = mime_content_type( $path );
+        }
         return new self;
     }
 
