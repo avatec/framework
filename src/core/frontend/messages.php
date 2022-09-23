@@ -18,6 +18,13 @@ class Messages
         }
     }
 
+    public static function getErrors()
+    {
+        if(!empty( self::$data['error'] )) {
+            return self::$data['error'];
+        }
+    }
+
     protected static function set($state, $text)
     {
         self::$data[$state][] = $text;
