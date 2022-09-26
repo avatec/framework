@@ -2,6 +2,14 @@
 
 class Api
 {
+    private static $returnAsJson = false;
+
+    public static function json()
+    {
+        self::$returnAsJson = true;
+        return new self;
+    }
+
 /**
  * Zwraca randomowy token
  * @param int $length określa ilość znaków
@@ -26,7 +34,11 @@ class Api
             $success = array_merge( $success, $additional );
         }
 
-        return ['error' => $success];
+        if(!empty( self::$returnAsJson )) {
+            return json_encode( ['success' => $success], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        return ['success' => $success];
     }
 
 /**
@@ -41,6 +53,10 @@ class Api
         $error = ['message' => $message];
         if(!empty( $additional )) {
             $error = array_merge( $error, $additional );
+        }
+
+        if(!empty( self::$returnAsJson )) {
+            return json_encode( ['error' => $error], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
         return ['error' => $error];
