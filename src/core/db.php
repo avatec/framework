@@ -232,7 +232,8 @@ class Db
 
         $result = $result->fetch_assoc();
         if(!empty( $result['priority'] )) {
-            return $result['priority']++;
+            $result['priority']++;
+            return $result['priority'];
         }
 
         return 1;
