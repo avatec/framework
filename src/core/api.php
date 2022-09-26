@@ -26,7 +26,7 @@ class Api
  * @param array $additional (optional)
  * @return array
  */
-    public static function success( string $message, array $additional = null ): array
+    public static function success( string $message, array $additional = null )
     {
         http_response_code(201);
         $success = ['message' => $message];
@@ -47,7 +47,7 @@ class Api
  * @param array $additional (optional)
  * @return array
  */
-    public static function error( string $message, array $additional = null ): array
+    public static function error( string $message, array $additional = null )
     {
         http_response_code(400);
         $error = ['message' => $message];
