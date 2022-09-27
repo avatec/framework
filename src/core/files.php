@@ -3,7 +3,7 @@
 namespace Core;
 
 use Core\Image;
-use Core\Kernel;
+use Core\Logs;
 use Core\Language;
 use \Verot\Upload\Upload as Upload;
 
@@ -150,7 +150,7 @@ class Files
 					$handle->file_auto_rename	= true;
 				}
 
-				Kernel::log('core.files.log', 'Src mime: ' . $handle->file_src_mime);
+				Logs::create('core.files.log', 'Src mime: ' . $handle->file_src_mime);
 
 				if (in_array($handle->file_src_mime, ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/*']) == true) {
 					if (!empty($o['convert']) && ($handle->image_src_type != 'jpg' || $handle->image_src_type != 'jpeg')) {

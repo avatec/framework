@@ -1,6 +1,6 @@
 <?php namespace Core;
 
-use \Db;
+use Core\Db;
 use SMSGatewayMe\Client\ApiClient;
 use SMSGatewayMe\Client\Configuration;
 use SMSGatewayMe\Client\Api\MessageApi;

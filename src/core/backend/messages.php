@@ -1,7 +1,5 @@
 <?php namespace Core\Backend;
 
-use Core\Cache;
-
 class Messages
 {
     protected static $data = [];

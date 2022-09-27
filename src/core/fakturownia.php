@@ -1,6 +1,6 @@
 <?php namespace Core;
 
-use \Kernel;
+use Core\Logs;
 
 /**
  *	Klasa obsługuje połączenie z API fakturownia.pl
@@ -47,9 +47,9 @@ class Fakturownia
         $result = curl_exec($c);
         curl_close($c);
 
-        Kernel::log('fakturownia.log', 'Wysyłanie faktury mailem');
-        Kernel::log('fakturownia.log', "https://" . $this->url . "/invoices/" . $id . "/send_by_email.json?api_token=" . $this->api_token);
-        Kernel::log('fakturownia.log', $result);
+        Logs::create('fakturownia.log', 'Wysyłanie faktury mailem');
+        Logs::create('fakturownia.log', "https://" . $this->url . "/invoices/" . $id . "/send_by_email.json?api_token=" . $this->api_token);
+        Logs::create('fakturownia.log', $result);
 
         return json_decode($result);
     }
@@ -66,8 +66,8 @@ class Fakturownia
 
     public function create_invoice($data)
     {
-        Kernel::log('fakturownia.log' , 'Otrzymano dane do faktury:');
-        Kernel::log('fakturownia.log' , print_r($data, true));
+        Logs::create('fakturownia.log' , 'Otrzymano dane do faktury:');
+        Logs::create('fakturownia.log' , print_r($data, true));
         $nip = str_replace([' ','-'], ['',''], $data['buyer_tax_no']);
         global $config;
 
@@ -93,9 +93,9 @@ class Fakturownia
         ], JSON_FORCE_OBJECT);
 
         $r = $this->request($json);
-        Kernel::log('fakturownia.log', 'Generowanie faktury');
-        Kernel::log('fakturownia.log', $json);
-        Kernel::log('fakturownia.log', print_r($r, true));
+        Logs::create('fakturownia.log', 'Generowanie faktury');
+        Logs::create('fakturownia.log', $json);
+        Logs::create('fakturownia.log', print_r($r, true));
 
         if (!empty($r->id)) {
             $this->send_invoice( $r->id );

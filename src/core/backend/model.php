@@ -1,6 +1,8 @@
 <?php namespace Core\Backend;
+
 use Core\Request;
 use Core\Language;
+
 class Model
 {
     public static $Error = [];

@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use \Db;
+use Core\Db;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
