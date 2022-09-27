@@ -25,7 +25,7 @@ class Messages
     protected static function set($state, $text)
     {
         self::$data[$state][] = $text;
-        $_SESSION['frontend']['frontend'] = self::$data;
+        $_SESSION['frontend']['messages'] = self::$data;
     }
 
     public static function success($text, $array = null)

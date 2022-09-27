@@ -11,8 +11,8 @@ class Messages
             $state = strtolower($state);
         }
 
-        if(!empty( $_SESSION['backend']['backend'] )) {
-            self::$data = $_SESSION['backend']['backend'];
+        if(!empty( $_SESSION['backend']['messages'] )) {
+            self::$data = $_SESSION['backend']['messages'];
         }
 
         if (!empty(self::$data[$state])) {
@@ -25,7 +25,7 @@ class Messages
     protected static function set($state, $text)
     {
         self::$data[$state][] = $text;
-        $_SESSION['backend']['backend'] = self::$data;
+        $_SESSION['backend']['messages'] = self::$data;
     }
 
     public static function success($text, $array = null)
@@ -70,8 +70,8 @@ class Messages
             self::$data = [];
         }
 
-        if(!empty( $_SESSION['backend']['backend'] )) {
-            unset( $_SESSION['backend']['backend'] );
+        if(!empty( $_SESSION['backend']['messages'] )) {
+            unset( $_SESSION['backend']['messages'] );
         }
     }
 }
