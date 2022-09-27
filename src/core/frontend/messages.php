@@ -11,6 +11,10 @@ class Messages
             $state = strtolower($state);
         }
 
+        if(!empty( $_SESSION['frontend']['frontend'] )) {
+            self::$data = $_SESSION['frontend']['frontend'];
+        }
+
         if (!empty(self::$data[$state])) {
             return self::$data[$state];
         } else {
@@ -18,16 +22,10 @@ class Messages
         }
     }
 
-    public static function getErrors()
-    {
-        if(!empty( self::$data['error'] )) {
-            return self::$data['error'];
-        }
-    }
-
     protected static function set($state, $text)
     {
         self::$data[$state][] = $text;
+        $_SESSION['frontend']['frontend'] = self::$data;
     }
 
     public static function success($text, $array = null)
@@ -70,6 +68,10 @@ class Messages
     {
         if (!empty(self::$data)) {
             self::$data = [];
+        }
+
+        if(!empty( $_SESSION['frontend']['frontend'] )) {
+            unset( $_SESSION['frontend']['frontend'] );
         }
     }
 }
