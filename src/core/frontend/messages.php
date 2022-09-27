@@ -11,8 +11,8 @@ class Messages
             $state = strtolower($state);
         }
 
-        if(!empty( $_SESSION['frontend']['frontend'] )) {
-            self::$data = $_SESSION['frontend']['frontend'];
+        if(!empty( $_SESSION['frontend']['messages'] )) {
+            self::$data = $_SESSION['frontend']['messages'];
         }
 
         if (!empty(self::$data[$state])) {
@@ -70,8 +70,8 @@ class Messages
             self::$data = [];
         }
 
-        if(!empty( $_SESSION['frontend']['frontend'] )) {
-            unset( $_SESSION['frontend']['frontend'] );
+        if(!empty( $_SESSION['frontend']['messages'] )) {
+            unset( $_SESSION['frontend']['messages'] );
         }
     }
 }
