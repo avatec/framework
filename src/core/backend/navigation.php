@@ -27,7 +27,7 @@ class Navigation
     public static function menu($lp, $module, $name, $path = null, $icon = null)
     {
         self::$menu[ $module ] = [
-            'priority' => $lp,
+            'priority' => (int) $lp,
             'name' => $name,
             'path' => $path,
             'icon' => (!empty($icon) ? $icon : null)
@@ -41,9 +41,10 @@ class Navigation
  *  @param $path (string) - ścieżka bez przedrostka admin
  */
 
-    public static function submenu($module, $name, $path)
+    public static function submenu($module, $name, $path, $lp = 1)
     {
         self::$menu[ $module ]['submenu'][] = [
+            'priority' => $lp,
             'name' => $name,
             'path' => $path
         ];
@@ -59,7 +60,7 @@ class Navigation
     public static function configmenu($name, $path, $priority = 1)
     {
         self::$config_menu[] = [
-            'priority' => $priority,
+            'priority' => (int) $priority,
             'name' => $name,
             'path' => $path
         ];
@@ -73,7 +74,7 @@ class Navigation
     public static function line($lp)
     {
         self::$menu['line_' . $lp] = [
-            'priority' => $lp,
+            'priority' => (int) $lp,
             'line' => true
         ];
     }
@@ -87,10 +88,33 @@ class Navigation
     public static function label($lp, $name)
     {
         self::$menu[ 'label_' . $lp ] = [
-            'priority' => $lp,
+            'priority' => (int) $lp,
             'name' => $name,
             'label' => true
         ];
+    }
+
+    private static function sort()
+    {
+        if(!empty( self::$menu )) {
+            foreach (self::$menu as $k=>$i) {
+                if(!empty( self::$menu[$k]['submenu'] )) {
+                    usort( self::$menu[$k]['submenu'], ['\Core\Backend\Navigation', 'sortByPriority']);
+                }
+            
+
+                usort(self::$menu, function ($item1, $item2) {
+                    if(!empty( $item1['priority'] ) && !empty( $item2['priority'] )) {
+                        return $item1['priority'] <=> $item2['priority'];
+                    }
+                });
+            }
+        }
+    }
+
+    private static function sortByPriority($a, $b)
+    {
+        return $a['priority'] <=> $a['priority'];
     }
 
 /**
@@ -103,17 +127,14 @@ class Navigation
             return;
         }
 
+        self::sort();
+        die( json_encode( self::$menu , JSON_PRETTY_PRINT ));
+
+        
+
         foreach (self::$menu as $k=>$i) {
             self::$menu[$k]['access'] = $k;
         }
-
-        $menu = self::$menu;
-
-        usort(self::$menu, function ($a, $b) {
-            if (!empty($a['priority']) && !empty($b['priority'])) {
-                return $a['priority']-$b['priority'];
-            }
-        });
 
         global $app_admin_url;
 
@@ -131,7 +152,7 @@ class Navigation
             if(empty($i['name'])) {
                 continue;
             }
-            if ((in_array($i['access'], $user_access) == true) or ($user_access[0] == '')) {
+            if ((in_array($i['access'], $user_access) == true) || ($user_access[0] == '')) {
                 if (!empty($i['label'])) {
                     $html[] = '<h3 class="menu-separator">' . $i['name'] . '</h3>';
                 } elseif (!empty($i['line'])) {
@@ -152,8 +173,6 @@ class Navigation
             }
         }
         $html[] = '</ul>';
-
-        self::$menu = $menu;
 
         return implode($html);
     }
