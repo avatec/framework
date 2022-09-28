@@ -128,10 +128,7 @@ class Navigation
         }
 
         self::sort();
-        die( json_encode( self::$menu , JSON_PRETTY_PRINT ));
-
         
-
         foreach (self::$menu as $k=>$i) {
             self::$menu[$k]['access'] = $k;
         }
