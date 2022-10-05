@@ -51,4 +51,9 @@ class Model
     {
         return Language::get_selected();
     }
+
+    public static function getAvailableLanguages(): array
+    {
+        return Language::$available;
+    }
 }
