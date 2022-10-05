@@ -21,8 +21,8 @@ class Common
     ];
 
     public static $_truefalse = [
-        ['id' => 0, 'name' => 'nie', 'label' => 'success'],
-        ['id' => 1, 'name' => 'tak', 'label' => 'danger']
+        ['id' => 0, 'name' => 'nie', 'label' => 'danger'],
+        ['id' => 1, 'name' => 'tak', 'label' => 'success']
     ];
 
     public static $_status = [
