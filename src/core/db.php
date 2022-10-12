@@ -15,8 +15,9 @@ class Db
     private static $instance;
     public static $debug;
 
-    private function __clone()
+    public function __construct()
     {
+        self::$instance->call();
     }
 
     public function __destruct()
