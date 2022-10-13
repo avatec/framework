@@ -46,11 +46,24 @@ class Db
         }
     }
 
+    // @deprecated since 1.2 - please use getErrorMessage instead
     public static function error()
     {
         self::call();
 
         return self::$instance->error;
+    }
+
+    public static function getErrorMessage(): string
+    {
+        self::call();
+        return self::$instance->error;
+    }
+
+    public static function getErrors(): array
+    {
+        self::call();
+        return self::$instance->error_list;
     }
 
     public static function real_escape($string)
@@ -218,6 +231,10 @@ class Db
         return $result;
     }
 
+/**
+ * Zwraca ostatnio utworzony ID
+ * @return int
+ */
     public static function insert_id()
     {
         self::call();
