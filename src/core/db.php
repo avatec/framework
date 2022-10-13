@@ -37,7 +37,7 @@ class Db
             }
             self::$instance = new MySQLi($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name'], (!empty($config['db_port']) ? (int) $config['db_port'] : 3306));
             if (self::$instance->connect_error) {
-                throw new DatabaseConnectErrorException;
+                throw new DatabaseConnectErrorException();
             }
 
             self::$instance->set_charset("utf8mb4");
