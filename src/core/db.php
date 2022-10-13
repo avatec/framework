@@ -222,10 +222,7 @@ class Db
     {
         self::call();
 
-        print_r(self::$instance);
-        exit;  
-
-        return self::$instance->insert_id;
+        return !empty( self::$instance->insert_id ) ? self::$instance->insert_id : false;
     }
 
     public static function save($t, $v, $w)
