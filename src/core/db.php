@@ -224,6 +224,9 @@ class Db
             self::$instance = self::call();
         }
 
+        print_r(self::$instance);
+        exit;  
+
         return self::$instance->insert_id;
     }
 
