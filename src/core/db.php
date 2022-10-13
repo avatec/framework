@@ -220,9 +220,7 @@ class Db
 
     public static function insert_id()
     {
-        if (!empty(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         print_r(self::$instance);
         exit;  
