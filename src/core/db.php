@@ -2,7 +2,9 @@
 namespace Core;
 
 use mysqli;
+use Core\Database\Exceptions\DatabaseConnectErrorException;
 use Exception;
+
 /**
  *	Klasa obsługuje połączenie z MySQL w systemie CMS
  *  @author Grzegorz Miśkiewicz <biuro@avatec.pl>
@@ -25,50 +27,42 @@ class Db
         self::$instance->close();
     }
 
-    public static function call()
+    public static function call( $data = null )
     {
-        global $config;
-
         if (!isset(self::$instance)) {
-
+            if(!empty( $data )) {
+                $config = $data;
+            } else {
+                global $config;
+            }
             self::$instance = new MySQLi($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name'], (!empty($config['db_port']) ? (int) $config['db_port'] : 3306));
             if (self::$instance->connect_error) {
-                throw new Exception('Error MySQL: ' . self::$instance->connect_error);
+                throw new DatabaseConnectErrorException;
             }
 
             self::$instance->set_charset("utf8mb4");
             self::$instance->query("SET sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
             self::$instance->query("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
         }
-
-        if (isset(self::$instance)) {
-            return self::$instance;
-        }
     }
 
     public static function error()
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         return self::$instance->error;
     }
 
     public static function real_escape($string)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         return self::$instance->real_escape_string($string);
     }
 
     public static function count($t, $w = null)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
         if (is_null($w)) {
             $result = self::$instance->query("SELECT * FROM " . $t);
         } else {
@@ -84,9 +78,7 @@ class Db
 
     public static function query($query)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $result = self::$instance->query($query);
         if (!empty(self::$instance->error)) {
@@ -104,9 +96,7 @@ class Db
 
     public static function query_row($query)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $result = self::$instance->query($query);
         if (!empty(self::$instance->error)) {
@@ -125,9 +115,7 @@ class Db
 
     public static function last_id($table, $column = "id")
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $result = self::row("*", $table, "ORDER BY ".$column." DESC");
         return $result[$column];
@@ -135,9 +123,7 @@ class Db
 
     public static function run($query)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $result = self::$instance->query($query);
         if (!empty(self::$instance->error)) {
@@ -153,9 +139,7 @@ class Db
 
     public static function update($t, $q, $w)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $query = "UPDATE " . $t . " SET " . $q . " WHERE ".$w;
         if (self::$instance->query($query) === true) {
@@ -175,9 +159,7 @@ class Db
     {
         $query = "SELECT " . $e . " FROM " . $t . " " . $w;
 
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $result = self::$instance->query($query);
         if (!empty(self::$instance->error)) {
@@ -215,9 +197,7 @@ class Db
 
     public static function check($t, $w, $silent = false)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
         $query = "SELECT * FROM " . $t . " WHERE " . $w;
 
         $result = mysqli_query(self::$instance, $query);
@@ -230,9 +210,7 @@ class Db
 
     public static function insert($t, $v)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $query = "INSERT INTO " . $t . " VALUES(" . $v . ");";
 
@@ -251,9 +229,7 @@ class Db
 
     public static function save($t, $v, $w)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $query = "UPDATE  " . $t . " SET " . $v . " WHERE " . $w . ";";
 
@@ -263,9 +239,7 @@ class Db
 
     public static function delete($t, $w)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $query = "DELETE FROM  " . $t . " WHERE " . $w . ";";
         $result = mysqli_query(self::$instance, $query);
@@ -280,9 +254,7 @@ class Db
     {
         global $config;
 
-        if (!isset(self::$instance)) {
-            self::$instance = self::call();
-        }
+        self::call();
 
         $query = "SHOW TABLES FROM " . $config['db_name'] . " LIKE '" . $t . "';";
         $result = self::$instance->query( $query );
