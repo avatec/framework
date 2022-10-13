@@ -281,9 +281,10 @@ class Db
             self::$instance = self::call();
         }
 
-        $result = self::$instance->query("SHOW TABLES FROM " . $config['db_name'] . " LIKE '" . $t . "';");
+        $query = "SHOW TABLES FROM " . $config['db_name'] . " LIKE '" . $t . "';";
+        $result = self::$instance->query( $query );
         if (!empty(self::$instance->error)) {
-            throw new Exception('Error MySQL: ' . self::$instance->error);
+            throw new Exception('Error MySQL: ' . self::$instance->error . '. Query that returned error: ' . $query);
         }
 
         if (!empty($result->num_rows)) {
