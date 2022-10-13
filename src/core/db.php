@@ -29,18 +29,21 @@ class Db
     {
         global $config;
 
+        if (!isset(self::$instance)) {
+
+            self::$instance = new MySQLi($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name'], (!empty($config['db_port']) ? (int) $config['db_port'] : 3306));
+            if (self::$instance->connect_error) {
+                throw new Exception('Error MySQL: ' . self::$instance->connect_error);
+            }
+
+            self::$instance->set_charset("utf8mb4");
+            self::$instance->query("SET sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
+            self::$instance->query("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
+        }
+
         if (isset(self::$instance)) {
             return self::$instance;
         }
-
-        self::$instance = new MySQLi($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name'], (!empty($config['db_port']) ? (int) $config['db_port'] : 3306));
-        if (self::$instance->connect_error) {
-            throw new Exception('Error MySQL: ' . self::$instance->connect_error);
-        }
-
-        self::$instance->set_charset("utf8mb4");
-        self::$instance->query("SET sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';");
-        self::$instance->query("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
     }
 
     public static function error()
