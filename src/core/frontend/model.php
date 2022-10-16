@@ -10,7 +10,7 @@ class Model
     protected $config, $route;
 
     public static $app_path, $app_url;
-    public static $UploadPath, $UploadUrl;
+    public static $UploadPath, $UploadUrl, $BlankImage;
 
     public function __construct()
     {
@@ -50,5 +50,10 @@ class Model
     public static function getCurrentLanguage(): string
     {
         return Language::get_selected();
+    }
+
+    public static function getAvailableLanguages(): array
+    {
+        return Language::$available;
     }
 }
