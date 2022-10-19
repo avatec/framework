@@ -8,6 +8,7 @@ namespace Core;
 
 class Error
 {
+    public static $name = 'Avatec Framework';
     public static $mode = 'html';
 
     /**
@@ -28,8 +29,8 @@ class Error
             echo '.main p { margin: 0; padding-bottom: 2rem; }';
             echo '</style>';
             echo '</head><body>' . PHP_EOL;
-            echo '<div class="main">' . PHP_EOL . '<img src="/templates/website/images/logo-log.png" alt="Avatec Framework" /><h1>' . $title . '</h1>' . PHP_EOL . '<p>' . $text . '</p></div><br/><br/>' . PHP_EOL;
-            echo '<p align="center"><small>Avatec Framework - &copy; ' . date('Y') . '</small></p>';
+            echo '<div class="main">' . PHP_EOL . '<img src="/templates/website/images/logo-log.png" alt="' . self::$name . '" /><h1>' . $title . '</h1>' . PHP_EOL . '<p>' . $text . '</p></div><br/><br/>' . PHP_EOL;
+            echo '<p align="center"><small>' . self::$name . ' - &copy; ' . date('Y') . '</small></p>';
             echo '</body></html>';
         }
         if (self::$mode == 'json') {
