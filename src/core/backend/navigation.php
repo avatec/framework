@@ -43,6 +43,14 @@ class Navigation
 
     public static function submenu($module, $name, $path, $lp = 1)
     {
+        if(!empty( self::$menu[$module]['submenu'] )) {
+            foreach( self::$menu[$module]['submenu'] as $submenu ) {
+                if( $submenu['path'] == $path ) {
+                    return false;
+                }
+            }
+        }
+        
         self::$menu[ $module ]['submenu'][] = [
             'priority' => $lp,
             'name' => $name,
