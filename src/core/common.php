@@ -218,4 +218,15 @@ class Common
             'image/png', 'image/gif', 'image/svg+xml'
         ];
     }
+
+/**
+ * Zwraca mime dla ikon (jpg, png, webp)
+ * @return array
+ */
+    public static function getMimeForPhotos(): array
+    {
+        return [
+            'image/jpeg', 'image/jpg', 'image/png', 'image/webp'
+        ];
+    }
 }
