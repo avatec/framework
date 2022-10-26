@@ -34,11 +34,13 @@ class Language
     /**
      *	Inicjalizacja języków
      */
-    public static function init()
+    public static function init( $defaultLanguage = 'pl', $allowBrowserLanguage = false )
     {
         global $route;
+        $route->language = $defaultLanguage;
+        self::$selected = $defaultLanguage;
 
-        if( !empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] )) {
+        if( !empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) && $allowBrowserLanguage == true) {
             $browser_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
             $browser_language = explode("-", $browser_language);
             $browser_language = strtolower($browser_language[0]);
@@ -71,7 +73,7 @@ class Language
             }
 
             if (empty(self::$selected_admin)) {
-                self::change("pl");
+                self::change( $defaultLanguage );
             }
         }
     }
