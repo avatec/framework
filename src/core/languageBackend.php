@@ -104,7 +104,7 @@ class LanguageBackend {
 				self::update();
 			}
 		} else {
-			trigger_error('Can\'t find language file in module <b>'.$lang_file.'</b>' , E_USER_NOTICE );
+			//trigger_error('Can\'t find language file in module <b>'.$lang_file.'</b>' , E_USER_NOTICE );
 		}
 	}
 
