@@ -21,12 +21,12 @@ class LanguageBackend {
 	public static $selected = 'pl';
 	public static $lang = array();
 
-	public static function init()
+	public static function init($defaultLanguage = 'pl')
 	{
 		if(!empty($_SESSION['backend']['translations']['code'])) {
 			self::$selected = $_SESSION['backend']['translations']['code'];
 		} else {
-			self::change( "pl" );
+			self::change( $defaultLanguage );
 		}
 	}
 
