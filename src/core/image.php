@@ -300,14 +300,14 @@ class Image
 	 * @param  string $file
 	 * @return string
 	 */
-	public function detectFileType(string $file): string
+	public static function detectFileType(string $file): string
 	{
 		$fp = fopen($file, 'r');
 		fseek($fp, 1);
 		$result = fread($fp, 16);
 		fclose($fp);
 
-		foreach ($fileTypePatterns as $i) {
+		foreach (self::$fileTypePatterns as $i) {
 			if ($i['b64'] === base64_encode($result)) {
 				return $i['type'];
 			}
@@ -316,7 +316,7 @@ class Image
 		return 'unknown / ' . $result;
 	}
 
-	public function getDominantColor($img, $default = '#eee')
+	public static function getDominantColor($img, $default = '#eee')
 	{
 		if (@exif_imagetype($img)) { 
 			$type = getimagesize($img)[2]; 
