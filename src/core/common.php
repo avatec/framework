@@ -229,4 +229,27 @@ class Common
             'image/jpeg', 'image/jpg', 'image/png', 'image/webp'
         ];
     }
+
+/**
+ * Zwraca kwotę brutto na podstawie kwoty netto i podanego podatku
+ * @param float $netto
+ * @param float $tax (ex. 23)
+ * @return float;
+ */
+    public static function netto2brutto( float $netto, float $tax ): float
+    {
+        return number_format($netto * ($tax * 0.01 + 1),2)
+    }
+
+/**
+ * Zwraca kwotę netto na podstawie kwoty brutto i podanego podatku
+ * @param float $brutto
+ * @param float $tax (ex. 23)
+ * @return float;
+ */
+
+    public static function brutto2netto( float $brutto, float $tax )
+    {
+        return number_format($brutto / ($tax * 0.01 + 1),2);
+    }
 }
