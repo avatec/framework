@@ -238,7 +238,7 @@ class Common
  */
     public static function netto2brutto( float $netto, float $tax ): float
     {
-        return number_format($netto * ($tax * 0.01 + 1),2)
+        return number_format($netto * ($tax * 0.01 + 1),2);
     }
 
 /**
