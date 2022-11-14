@@ -2,11 +2,18 @@
 
 class Api
 {
+    private static $gzip = false;
     private static $returnAsJson = false;
 
     public static function json()
     {
         self::$returnAsJson = true;
+        return new self;
+    }
+
+    public static function gzip()
+    {
+        self::$gzip = true;
         return new self;
     }
 
@@ -36,6 +43,11 @@ class Api
 
         if(!empty( self::$returnAsJson )) {
             return json_encode( ['success' => $success], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        if(!empty( self::$gzip )) {
+            header('Content-Encoding' , 'gzip');
+            return gzencode(json_encode(['success' => $success]));
         }
 
         return ['success' => $success];
