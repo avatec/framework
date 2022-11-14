@@ -85,4 +85,13 @@ class Views
 
         return new self();
     }
+
+    public static function hasSchema()
+    {
+        if( !empty( self::$schema )) {
+            return true;
+        }
+
+        return false;
+    }
 }
