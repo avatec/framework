@@ -40,8 +40,17 @@ class Language
         if( empty( self::$available )) {
             return [];
         }
+
+        $select = [];
+
+        foreach( self::$available as $code=>$name ) {
+            $select[] = [
+                'id' => $code,
+                'name' => $name
+            ];
+        }
         
-        return self::$available;
+        return $select;
     }
 
 /**
