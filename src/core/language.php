@@ -31,9 +31,22 @@ class Language
     // Tablica z tłumaczeniami
     public static $lang = array();
 
-    /**
-     *	Inicjalizacja języków
-     */
+/**
+ * Zwraca listę utworzonych języków dla danego serwisu
+ * @return array
+ */
+    public static function getList()
+    {
+        if( empty( self::$available )) {
+            return [];
+        }
+        
+        return self::$available;
+    }
+
+/**
+ *	Inicjalizacja języków
+    */
     public static function init( $defaultLanguage = 'pl', $allowBrowserLanguage = false )
     {
         global $route;
