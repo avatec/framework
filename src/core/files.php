@@ -24,7 +24,7 @@ class Files
 
 	public static function get_icon(string $mime): string
 	{
-		return match ($mime) {
+		$array = [
 			"image/png" => "fa-file-image",
 			"image/jpg" => "fa-file-image",
 			"image/jpeg" => "fa-file-image",
@@ -41,9 +41,10 @@ class Files
 			"application/vnd.ms-office" => 'fa-file-excel',
 			"application/octet-stream" => 'fa-file-excel',
 			"application/vnd.ms-excel" => 'fa-file-excel',
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => 'fa-file-excel',
-			default => 'fa-file'
-		};
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => 'fa-file-excel'
+		];
+
+		return ($array[$mime] ? $array[$mime] : 'fa-file');
 	}
 
 	/**
