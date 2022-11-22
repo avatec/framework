@@ -35,12 +35,11 @@ class Request
     public function clean( $data )
     {
         if(empty( $data )) {
-            return null;
+            return [];
         }
         
         if (is_array($data)) {
             foreach ($data as $key => $value) {
-                unset($data[$key]);
                 if(!empty( $data[$this->clean($key)] )) {
                     $data[$this->clean($key)] = $this->clean($value);
                 }
