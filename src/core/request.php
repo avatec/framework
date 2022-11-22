@@ -35,7 +35,7 @@ class Request
     public function clean( $data )
     {
         if(empty( $data )) {
-            return [];
+            return null;
         }
         
         if (is_array($data)) {
