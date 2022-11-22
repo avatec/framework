@@ -13,19 +13,12 @@ class Request
 
     public function __construct()
     {
-        $_GET = $this->clean($_GET);
-        $_POST = $this->clean($_POST);
-        $_REQUEST = $this->clean($_REQUEST);
-        $_COOKIE = $this->clean($_COOKIE);
-        $_FILES = $this->clean($_FILES);
-        $_SERVER = $this->clean($_SERVER);
-
-        $this->get = $_GET;
-        $this->post = $_POST;
-        $this->any = $_REQUEST;
-        $this->cookie = $_COOKIE;
-        $this->files = $_FILES;
-        $this->server = $_SERVER;
+        $this->get = $this->clean($_GET);
+        $this->post = $this->clean($_POST);
+        $this->any = $this->clean($_REQUEST);
+        $this->cookie = $this->clean($_COOKIE);
+        $this->files = $this->clean($_FILES);
+        $this->files = $this->clean($_SERVER);
 
         $this->input = file_get_contents('php://input');
         $input_src = $this->input;
@@ -48,8 +41,9 @@ class Request
         if (is_array($data)) {
             foreach ($data as $key => $value) {
                 unset($data[$key]);
-
-                $data[$this->clean($key)] = $this->clean($value);
+                if(!empty( $data[$this->clean($key)] )) {
+                    $data[$this->clean($key)] = $this->clean($value);
+                }
             }
         } else {
             $data = htmlspecialchars($data, ENT_COMPAT, 'UTF-8');
