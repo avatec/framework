@@ -18,7 +18,7 @@ class Request
         $this->any = $this->clean($_REQUEST);
         $this->cookie = $this->clean($_COOKIE);
         $this->files = $this->clean($_FILES);
-        $this->files = $this->clean($_SERVER);
+        $this->server = $this->clean($_SERVER);
 
         $this->input = file_get_contents('php://input');
         $input_src = $this->input;
