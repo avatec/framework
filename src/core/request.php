@@ -40,7 +40,7 @@ class Request
         
         if (is_array($data)) {
             foreach ($data as $key => $value) {
-                if(!empty( $data[$key] ) && is_array( $data[$key] )) {
+                if(!empty( $data[$key] ) && is_array( $data[$key] ) && !empty( $key )) {
                     $data[$this->clean($key)] = $this->clean($value);
                 }
             }
