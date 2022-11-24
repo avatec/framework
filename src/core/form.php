@@ -69,6 +69,12 @@ class Form
     {
         $name = str_replace('[]' , '' , $name);
 
+        // Sprawdzenie czy istnieje w POST[name1][name2]
+        $indexes = self::getIndexes( $name );
+        if( !empty( self::$post[$indexes[1]][$indexes[2]] ) && self::$post[$indexes[1]][$indexes[2]] == $value ) {
+            return true;
+        }
+
         // Sprawdzanie w POST[$name]
         if (!empty(self::$post[ $name ]) && self::$post[ $name ] == $value) {
             return true;
@@ -115,6 +121,41 @@ class Form
         }
 
         return false;
+    }
+
+/**
+ * Konwertuje string na nazwy tablicy np. POST[nazwa1][nazwa2]
+ * @param string $string
+ * @return array
+ */
+    protected static function getIndexes( $string )
+    {
+        $array = str_split( $string );
+        $newIndex1 = '';
+        $newIndex2 = '';
+
+        foreach( $array as $i ) {
+            if( $i == '[' ) {
+                $newIndex2 = $i;
+                continue;
+            }
+
+            if( $i == ']' ) {
+                $newIndex2 = str_replace("[" , "", $newIndex2);
+                break;
+            }
+
+            if(!empty( $newIndex2 )) {
+                $newIndex2 .= $i;
+            } else {
+                $newIndex1 .= $i;
+            }
+        }
+
+        return [
+            '1' => $newIndex1,
+            '2' => $newIndex2
+        ];
     }
 
     /**
