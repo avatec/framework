@@ -71,8 +71,12 @@ class Form
 
         // Sprawdzenie czy istnieje w POST[name1][name2]
         $indexes = self::getIndexes( $name );
-        if( !empty( self::$post[$indexes[1]][$indexes[2]] ) && self::$post[$indexes[1]][$indexes[2]] == $value ) {
-            return true;
+        if( !empty( self::$post[$indexes[1]][$indexes[2]] )) {
+            if( self::$post[$indexes[1]][$indexes[2]] == $value ) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         // Sprawdzanie w POST[$name]
