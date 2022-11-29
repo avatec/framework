@@ -7,7 +7,8 @@ class Model
 {
     public static $Error = [];
     public $post, $get, $files, $any, $input;
-    protected $config, $_config, $route;
+    protected $config, $route;
+    protected static $_config;
 
     public static $app_path, $app_url;
     public static $UploadPath, $UploadUrl, $BlankImage;
