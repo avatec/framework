@@ -7,7 +7,7 @@ class Model
 {
     public static $Error = [];
     public $post, $get, $files, $any, $input;
-    protected $config, $route;
+    protected $config, $_config, $route;
 
     public static $app_path, $app_url;
     public static $UploadPath, $UploadUrl, $BlankImage;
@@ -26,6 +26,7 @@ class Model
         $this->server = $request->server;
 
         $this->config = $config;
+        self::$_config = $config;
         $this->route = $route;
 
         self::$app_path = $app_path;
