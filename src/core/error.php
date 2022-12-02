@@ -13,8 +13,8 @@ class Error
 
     /**
      *  Wyświetlenie błedu
-     *  @params string $title Tytuł
-     *  @params string $text Treść błędu
+     *  @param string $title Tytuł
+     *  @param string $text Treść błędu
      */
 
     public static function show($title, $text)

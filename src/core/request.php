@@ -6,6 +6,7 @@ class Request
 {
     public $get = array();
     public $post = array();
+    public $any = array();
     public $cookie = array();
     public $files = array();
     public $server = array();

@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+use Core\Error;
+use Core\Request;
 use Modules\Admins\Backend\Admins;
 
 class Kernel
@@ -37,7 +39,7 @@ class Kernel
 
         $key = array_search($id, array_column(self::$components, 'id'));
         if (!empty($key)) {
-            CMSError::show(
+            Error::show(
                 'RegisterComponent Duplicate found #' . $id,
                 'You are trying to registerComponent to existing ID in ' . $name . '<br/>but it has been registered in: ' . self::$components[$key]['name']
             );
@@ -335,7 +337,7 @@ class Kernel
 
         if ((strstr(Admins::$auth['access'], $module) != true) && (in_array(Admins::$auth['type'], $account) !== true)) {
             Kernel::setMessage("ERROR", "Dostęp zabroniony dla Twojego konta");
-            \Core\Request::redirect($app_admin_url . "start.html");
+            Request::redirect($app_admin_url . "start.html");
         } else {
             return true;
         }

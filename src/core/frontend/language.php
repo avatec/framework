@@ -2,8 +2,10 @@
 namespace Core\Frontend;
 
 use Core\Db;
+use Core\Files;
 use Core\Language\LanguageFolderNotFoundException;
 use Core\Language\LanguageTransactionNotFoundException;
+
 class Language
 {
     private static $folder;
@@ -13,8 +15,8 @@ class Language
 
     public static function setFolder( string $folder )
     {
-        if( !dir_exists( $folder )) {
-            throw new LanguageFolderNotFoundException
+        if( !\Files::dir_exists( self::$folder )) {
+            throw new LanguageFolderNotFoundException;
         }
 
         self::$folder = $folder;
@@ -58,11 +60,11 @@ class Language
         return self::find( $text );
     }
 
-    private function find( string $text )
+    private static function find( string $text )
     {
-        $result = $this->findInDatabase( $text );
+        $result = self::findInDatabase( $text );
         if( $result == false ) {
-            $result = $this->findInFile( $text );
+            $result = self::findInFile( $text );
             if( $result == false ) {
                 throw new LanguageTransactionNotFoundException;
             }
@@ -71,7 +73,7 @@ class Language
         return $result;
     }
 
-    private function findInDatabase( string $text )
+    private static function findInDatabase( string $text )
     {
         $result = Db::query("SELECT text FROM core_translations WHERE text='" . $text. "' AND language='" . self::$current . "'");
         if( $result == false ) {
@@ -81,15 +83,15 @@ class Language
         return $result['text'];
     }
 
-    private function findInFile( string $text )
+    private static function findInFile( string $text )
     {
-        $files = scandir( $folder );
+        $files = scandir( self::$folder );
         if( empty( $files )) {
             return false;
         }
 
         foreach( $files as $file ) {
-            $content = file_get_contents(( $file );
+            $content = file_get_contents( $file );
             if( $content['text'] === $text ) {
                 return $content['text'];
             }
