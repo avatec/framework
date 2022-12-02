@@ -304,7 +304,7 @@ class Kernel
             include $url;
             return true;
         } else {
-            throw new Exception('File ' . $url . ' not found');
+            throw new \Exception('File ' . $url . ' not found');
         }
     }
 

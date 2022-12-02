@@ -127,12 +127,12 @@ class Navigation
 
 /**
  *  Zwraca wygenerowany kod HTML menu
- *  @return (string)
+ *  @return string
  */
     public static function get()
     {
         if (empty(self::$menu)) {
-            return;
+            return '';
         }
 
         self::sort();

@@ -6,7 +6,7 @@ use Core\Language;
 class Model
 {
     public static $Error = [];
-    public $post, $get, $files, $any, $input;
+    public $post, $get, $files, $any, $input, $server;
     protected $config, $route;
     protected static $_config;
 

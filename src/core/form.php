@@ -437,7 +437,7 @@ class Form
                 (isset($o['empty']['value']) ? ' value="' . $o['empty']['value'] . '"' : '') . '>' . $o['empty']['name'] . '</option>';
         }
 
-        if (!empty($o['options'])) {
+        if (!empty($o['options']) && is_array( $o['options'] )) {
             foreach ($o['options'] as $option) {
                 if (empty($option['selected'])) {
                     $option['selected'] = self::is_selected($o['name'], $option['id']);

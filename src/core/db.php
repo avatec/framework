@@ -19,7 +19,7 @@ class Db
 
     public function __construct()
     {
-        self::$instance->call();
+        self::call();
     }
 
     public function __destruct()

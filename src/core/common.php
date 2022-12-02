@@ -234,11 +234,11 @@ class Common
  * Zwraca kwotę brutto na podstawie kwoty netto i podanego podatku
  * @param float $netto
  * @param float $tax (ex. 23)
- * @return float;
+ * @return float
  */
     public static function netto2brutto( float $netto, float $tax ): float
     {
-        return number_format($netto * ($tax * 0.01 + 1),2);
+        return (float) number_format($netto * ($tax * 0.01 + 1),2);
     }
 
 /**

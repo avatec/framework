@@ -31,7 +31,7 @@ class Api
  * Zwraca poprawny result z kodem HTTP 201
  * @param string $message
  * @param array $additional (optional)
- * @return array
+ * @return array|string
  */
     public static function success( string $message, array $additional = null )
     {
@@ -42,11 +42,13 @@ class Api
         }
 
         if(!empty( self::$returnAsJson )) {
-            return json_encode( ['success' => $success], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            return json_encode(array(
+                'success' => $success
+            ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
         if(!empty( self::$gzip )) {
-            header('Content-Encoding' , 'gzip');
+            header('Content-Encoding: gzip');
             return gzencode(json_encode(['success' => $success]));
         }
 
@@ -57,7 +59,7 @@ class Api
  * Zwraca błędny result z kodem HTTP 400
  * @param string $message
  * @param array $additional (optional)
- * @return array
+ * @return array|string
  */
     public static function error( string $message, array $additional = null )
     {
@@ -68,7 +70,9 @@ class Api
         }
 
         if(!empty( self::$returnAsJson )) {
-            return json_encode( ['error' => $error], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            return json_encode([
+                'error' => $error], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            );
         }
 
         return ['error' => $error];

@@ -181,8 +181,7 @@ class Date
     public static function getMonth( int $number = null, int $short_level = 0 )
     {
         if( $number <= 0 || $number > 12 ) {
-            throw Exception('Core\Date::getMonth require month number between 1 and 12');
-            exit;
+            throw new Exception('Core\Date::getMonth require month number between 1 and 12');
         }
         if (is_null($number)) {
             foreach (self::$_months as $mn => $ma) {
