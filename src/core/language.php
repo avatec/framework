@@ -23,10 +23,10 @@ class Language
     public static $available = [];
 
     // Wybrany jezyk dla strony
-    public static $selected = 'pl';
+    public static $selected = 'de';
 
     // Wybrany język strony w PA
-    public static $selected_admin = 'pl';
+    public static $selected_admin = 'de';
 
     // Tablica z tłumaczeniami
     public static $lang = array();
