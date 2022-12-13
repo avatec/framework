@@ -183,6 +183,10 @@ class Common
     public static function getCountry( string $code2 )
     {
         global $app_path;
+        if(!file_exists ($app_path . 'include/json/eu-' . Language::get_selected() . '.json')) {
+            return '';
+        }
+        
         $cl = file_get_contents($app_path . 'include/json/eu-' . Language::get_selected() . '.json');
         $cl = json_decode( $cl, true );
         if(!empty( $cl )) {
