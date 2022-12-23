@@ -430,10 +430,10 @@ class Kernel
 
     public static function json_encode($string)
     {
-        $json = json_encode($string, JSON_UNESCAPED_UNICODE | JSON_ERROR_UTF8);
-        $json = str_replace("\r", "", $json);
+        $json = json_encode($string, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        /* $json = str_replace("\r", "", $json);
         $json = str_replace("\n", "", $json);
-        $json = trim(preg_replace('/\s\s+/', ' ', $json));
+        $json = trim(preg_replace('/\s\s+/', ' ', $json)); */
         return $json;
     }
 
