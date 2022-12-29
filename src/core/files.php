@@ -18,7 +18,7 @@ class Files
 
 	/**
 	 *	Zwraca dla mime kod dla Fantastic Awesome Icons
-	 *	@param string $mime\
+	 *	@param string $mime
 	 *	@return string
 	 */
 
@@ -72,6 +72,7 @@ class Files
 		if (file_exists($dir) == true && is_dir($dir) == true) {
 			return true;
 		}
+		
 		return false;
 	}
 
