@@ -102,14 +102,12 @@ class Files
 	/**
 	 *  Uploadowanie plików
 	 *  @param array $file
-	 *  @param int $o[convert][quality] default 80
-	 *  @param int $o[thumbs][width] default 768
-	 *  @param int $o[thumbs][height] default auto
+	 *  @param array $o
 	 *  @param boolean $o[thumbs][resize] default true
 	 *  @return mixed
 	 */
 
-	public static function upload($file, $o)
+	public static function upload(array $file, array $o)
 	{
 		if ((!empty($file) && is_array($file))) {
 			if ($file['error'] == 1) {
