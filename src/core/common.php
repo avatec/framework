@@ -43,7 +43,7 @@ class Common
 /**
  *  Odczytywanie domyślnych wartości
  *  @param string $id
- *  @param array $array
+ *  @param array|string $array
  *  @param bool $label
  *  @return string
  */
@@ -68,6 +68,8 @@ class Common
 				return '<span class="label label-' . $i['label'] . '">' . $i['name'] . '</span>';
 			}
 		}
+
+        return '';
 	}
 
     public static function get_ip()
