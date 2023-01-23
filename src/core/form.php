@@ -311,8 +311,8 @@ class Form
             (!empty($o['class']) ? ' class="' . $o['class'] . '"' : ' class="' . self::$default_input_class . '"') .
             (!empty($o['placeholder']) ? ' placeholder="' . $o['placeholder'] . '"' : '') .
             (isset($o['autocomplete']) ? ' autocomplete="' . $o['autocomplete'] . '"' : '') .
-            (!empty($o['min']) ? ' min="' . $o['min'] . '"' : '') .
-            (!empty($o['max']) ? ' max="' . $o['max'] . '"' : '') .
+            (isset($o['min']) ? ' min="' . $o['min'] . '"' : '') .
+            (isset($o['max']) ? ' max="' . $o['max'] . '"' : '') .
             (!empty($o['maxlength']) ? ' maxlength="' . $o['maxlength'] . '"' : '') .
             (!empty($o['step']) ? ' step="' . $o['step'] . '"' : '') .
             (!empty($o['pattern']) ? ' pattern="' . $o['pattern'] . '"' : '') .
