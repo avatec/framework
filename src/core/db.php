@@ -299,25 +299,10 @@ class Db
         return true;
     }
 
-    public static function begin()
+    public static function getInstance()
     {
         self::call();
-        self::$instance->begin_transaction();
         return self::$instance;
-    }
-
-    public static function commit($instance)
-    {
-        try {
-            $instance->commit();
-        } catch( \mysqli_sql_exception $exception ) {
-            throw $exception;
-        }
-    }
-
-    public static function rollback($instance)
-    {
-        $instance->rollback();
     }
 
     public static function close()
