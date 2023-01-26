@@ -312,7 +312,7 @@ class Db
         try {
             $stmt = $instance->prepare( $query );
             foreach ($data as $i) {
-                $stmt->bind_param($i['type'], $i['value']);
+                $stmt->bindParam(':' . $i['name'], $i['value']);
             }
             $stmt->execute();
         } catch (\mysqli_sql_exception $exception) {
