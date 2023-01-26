@@ -299,6 +299,28 @@ class Db
         return true;
     }
 
+    public static function begin()
+    {
+        self::call();
+        self::$instance->begin_transaction();
+    }
+
+    private $transactions = [];
+    public static function addTransaction( string $query, array $data )
+    {
+        $stmt = $mysqli->prepare( $query );
+        foreach ($data as $type => $value) {
+            $stmt->bind_param($type, $value);
+        }
+        $stmt->execute();
+    }
+
+    public static function commit()
+    {
+        self::call();
+        self::$instance->commit();
+    }
+
     public static function close()
     {
         self::$instance->close();
