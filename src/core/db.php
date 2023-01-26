@@ -311,9 +311,7 @@ class Db
     {   
         try {
             $stmt = $instance->prepare( $query );
-            foreach ($data as $i) {
-                $stmt->bind_param((string) $i['type'], ...$i['value']);
-            }
+            $stmt->bind_param(str_repeat('s', count($data)), ...$data);
             $stmt->execute();
         } catch (\mysqli_sql_exception $exception) {
             throw $exception;
