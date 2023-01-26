@@ -306,23 +306,6 @@ class Db
         return self::$instance;
     }
 
-    private $transactions = [];
-    public static function addTransaction( string $query, array $data, $instance )
-    {   
-        try {
-            $stmt = $instance->prepare( $query );
-            $stmt->bind_param(
-                str_repeat('s', count($data)), 
-                ...$data
-            );
-            $stmt->execute();
-        } catch (\mysqli_sql_exception $exception) {
-            throw $exception;
-        }
-
-        return $instance;
-    }
-
     public static function commit($instance)
     {
         try {
@@ -330,6 +313,11 @@ class Db
         } catch( \mysqli_sql_exception $exception ) {
             throw $exception;
         }
+    }
+
+    public static function rollback($instance)
+    {
+        $instance->rollback();
     }
 
     public static function close()
