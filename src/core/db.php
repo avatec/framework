@@ -308,7 +308,9 @@ class Db
     private $transactions = [];
     public static function addTransaction( string $query, array $data )
     {
-        $stmt = $mysqli->prepare( $query );
+        self::call();
+        
+        $stmt = self::$instance->prepare( $query );
         foreach ($data as $type => $value) {
             $stmt->bind_param($type, $value);
         }
