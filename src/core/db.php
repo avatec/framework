@@ -303,24 +303,32 @@ class Db
     {
         self::call();
         self::$instance->begin_transaction();
+        return self::$instance;
     }
 
     private $transactions = [];
-    public static function addTransaction( string $query, array $data )
-    {
-        self::call();
-        
-        $stmt = self::$instance->prepare( $query );
-        foreach ($data as $type => $value) {
-            $stmt->bind_param($type, $value);
+    public static function addTransaction( string $query, array $data, $instance )
+    {   
+        try {
+            $stmt = $instance->prepare( $query );
+            foreach ($data as $type => $value) {
+                $stmt->bind_param($type, $value);
+            }
+            $stmt->execute();
+        } catch (\mysqli_sql_exception $exception) {
+            throw $exception;
         }
-        $stmt->execute();
+
+        return $instance;
     }
 
-    public static function commit()
+    public static function commit($instance)
     {
-        self::call();
-        self::$instance->commit();
+        try {
+            $instance->commit();
+        } catch( \mysqli_sql_exception $exception ) {
+            throw $exception;
+        }
     }
 
     public static function close()
