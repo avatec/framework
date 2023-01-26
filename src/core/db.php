@@ -311,7 +311,7 @@ class Db
     {   
         try {
             $stmt = $instance->prepare( $query );
-            foreach ($data as i) {
+            foreach ($data as $i) {
                 $stmt->bind_param($i['type'], $i['value']);
             }
             $stmt->execute();
