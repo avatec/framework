@@ -49,6 +49,17 @@ class Date
         return self::$_instance;
     }
 
+    public static function setMonths( $months )
+    {
+        self::$_months = $months;
+        return new self::$_instance;
+    }
+
+    public static function setWeeks( $weeks ) {
+        self::$_weeks = $weeks;
+        return new self::$_instance;
+    }
+
 /**
  *  Ustawienie daty początkowej
  *  @param string $date
