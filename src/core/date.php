@@ -52,12 +52,11 @@ class Date
     public static function setMonths( $months )
     {
         self::$_months = $months;
-        return new self::$_instance;
     }
 
-    public static function setWeeks( $weeks ) {
+    public static function setWeeks( $weeks ) 
+    {
         self::$_weeks = $weeks;
-        return new self::$_instance;
     }
 
 /**
