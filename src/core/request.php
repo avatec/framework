@@ -127,7 +127,6 @@ class Request
         }
 
         $result = curl_exec($ch);
-
         if ($result === false) {
             throw new Exception(curl_error($ch));
         }
