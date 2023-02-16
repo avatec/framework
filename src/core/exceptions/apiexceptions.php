@@ -5,9 +5,9 @@ use Exception;
 class ApiExceptions extends Exception
 {
     // Exception code, message and data properties
-    private $code;
+    protected $code;
     protected $message;
-    private $data;
+    protected $data;
 
     public function __construct($message = "", $code = 0, $data = null) {
         $this->message = $message;
