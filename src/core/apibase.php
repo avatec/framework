@@ -1,8 +1,9 @@
 <?php namespace Core;
 
+use Core\Backend\Model;
 use Core\Exceptions\ApiExceptions;
 
-class ApiBase 
+class ApiBase extends Model
 {
     private $authToken;
     private $siteAuthToken;
