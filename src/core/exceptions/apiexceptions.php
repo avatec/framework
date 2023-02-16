@@ -1,5 +1,7 @@
 <?php namespace Core\Exceptions;
 
+use Exception;
+
 class ApiExceptions extends Exception
 {
     // Exception code, message and data properties
