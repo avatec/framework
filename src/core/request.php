@@ -98,4 +98,40 @@ class Request
 
         return $string;
     }
+
+/**
+ * Function to call API
+ * @param string $url
+ * @param string $method (GET|POST)
+ * @param array $data
+ * @param string $authToken
+ * @return array
+ */
+    public static function send( string $url, string $method = 'POST', array $data = [], string $authToken = '')
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $headers = [
+            'Content-Type: multipart/form-data',
+            "SiteAuth: $authToken",
+        ];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+
+        $result = curl_exec($ch);
+
+        if ($result === false) {
+            throw new Exception(curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        return $result;
+    }
 }
