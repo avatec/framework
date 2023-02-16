@@ -131,7 +131,10 @@ class Request
         }
 
         curl_close($ch);
+        if( is_string( $result )) {
+            return json_decode( $result );
+        }
 
-        return $result;
+        return (array) $result;
     }
 }
