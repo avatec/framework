@@ -6,7 +6,6 @@ use Exception;
 
 class ApiExceptions extends Exception
 {
-    // Exception code, message and data properties
     protected $code;
     protected $message;
     protected $data;

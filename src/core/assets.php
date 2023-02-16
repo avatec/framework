@@ -7,6 +7,13 @@ class Assets
 
     protected static $frontend = true;
     protected static $backend = false;
+    protected static $assets = false;
+
+    public static function assets()
+    {
+        self::$assets = true;
+        return new self;
+    }
 
     public static function frontend()
     {
@@ -28,7 +35,7 @@ class Assets
         ];
     }
 
-    private static function has_js($file)
+    private static function hasJS($file)
     {
         if (!empty(self::$js_files)) {
             return in_array($file, self::$js_files);
@@ -38,27 +45,27 @@ class Assets
 
     public static function js($file, $module = null)
     {
-        if (strpos($file, 'http') !== false) {
-            self::$js_files[] = $file;
-            return;
-        }
-
-        global $app_url;
-
-        if (is_null($module)) {
-            $path = $app_url . 'templates/' . (self::$frontend == true ? 'website' : 'admin') . '/js/';
+        if(!empty( self::$assets )) {
+            $path = '/assets/';
+            self::$assets = false;
         } else {
-            $path = $app_url . 'modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/js/';
+            if( is_null( $module )) {
+                $path = '/templates/' . (self::$frontend == true ? 'website' : 'admin') . '/js/';
+            } else {
+                $path = '/modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/js/';
+            }
         }
 
         $file = $path . $file;
 
-        if (self::has_js($file) == false) {
+        if( self::hasJS( $file ) == false ) {
             self::$js_files[] = $file;
         }
+
+        return new self;
     }
 
-    private static function has_css($file)
+    private static function hasCss($file)
     {
         if (!empty(self::$css_files)) {
             return in_array($file, self::$css_files);
@@ -68,33 +75,35 @@ class Assets
 
     public static function css($file, $module = null)
     {
-        if (strpos($file, 'http') !== false) {
-            self::$css_files[] = $file;
-            return;
-        }
-
-        global $app_url;
-
-        if (is_null($module)) {
-            $path = $app_url . 'templates/' . (self::$frontend == true ? 'website' : 'admin') . '/css/';
+        if(!empty( self::$assets )) {
+            $path = '/assets/';
+            self::$assets = false;
         } else {
-            $path = $app_url . 'modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/css/';
+            if( is_null( $module )) {
+                $path = '/templates/' . (self::$frontend == true ? 'website' : 'admin') . '/css/';
+            } else {
+                $path = '/modules/' . $module . '/' . (self::$frontend == true ? 'frontend' : 'backend') .'/css/';
+            }
         }
 
         $file = $path . $file;
 
-        if (self::has_css($file) == false) {
+        if( self::hasCss( $file ) == false ) {
             self::$css_files[] = $file;
         }
+
+        return new self;
     }
 
     public static function setExternalJs( $name, $link )
 	{
 		self::$js_files[$name] = $link;
+        return new self;
 	}
 
     public static function setExternalCss( $name, $link )
 	{
 		self::$css_files[$name] = $link;
+        return new self;
 	}
 }
