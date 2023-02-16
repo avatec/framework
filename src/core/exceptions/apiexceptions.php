@@ -1,4 +1,4 @@
-<?php namespace Exceptions;
+<?php namespace Core\Exceptions;
 
 class ApiExceptions extends Exception
 {
