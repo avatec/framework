@@ -17,6 +17,7 @@ class ApiBase
 
     public function validateAuth()
     {
+        echo $this->authToken . ' = ' . $this->siteAuthToken;
         if( $this->authToken !== $this->siteAuthToken ) {
             throw new ApiExceptions('Invalid auth token provided' , 401);
         }
