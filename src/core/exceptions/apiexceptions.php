@@ -6,7 +6,7 @@ class ApiExceptions extends Exception
 {
     // Exception code, message and data properties
     private $code;
-    private $message;
+    protected $message;
     private $data;
 
     public function __construct($message = "", $code = 0, $data = null) {
