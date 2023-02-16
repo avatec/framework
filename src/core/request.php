@@ -116,7 +116,7 @@ class Request
 
         $headers = [
             'Content-Type: multipart/form-data',
-            'SiteAuth: ' . $authToken
+            'Auth: ' . $authToken
         ];
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
