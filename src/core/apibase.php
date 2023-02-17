@@ -22,4 +22,10 @@ class ApiBase extends Model
             throw new ApiExceptions('Invalid auth token provided' , 401);
         }
     }
+    public function getEndpoints()
+    {
+        return ['success' => [
+            'methods' => get_class_methods( $this )
+        ]];
+    }
 }
