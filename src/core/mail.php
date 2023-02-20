@@ -1,6 +1,6 @@
 <?php namespace Core;
 
-use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class Mail
@@ -14,6 +14,7 @@ class Mail
     public static $reply_to;
     public static $bcc;
     public static $attachment;
+    public static $debug = false;
 
     public static function setAddress( string $address, $name = null )
     {
@@ -61,9 +62,12 @@ class Mail
         global $app_path, $config;
 
         $m = new PHPMailer();
-        // Debug
-        //$m->SMTPDebug = 3;
-        //$m->Debugoutput = "html";
+        if(!empty(self::$debug)) {
+            // Debug
+            $m->SMTPDebug = 3;
+            $m->Debugoutput = "html";
+        }
+
         $m->CharSet = "UTF-8";
         $m->SetLanguage("pl", $app_path . "vendor/phpmailer/phpmailer/");
         $m->AddReplyTo($config['smtp_email']);
