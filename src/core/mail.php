@@ -65,7 +65,7 @@ class Mail
         if(!empty(self::$debug)) {
             // Debug
             $m->SMTPDebug = 3;
-            $m->Debugoutput = "html";
+            $m->Debugoutput = "json";
         }
 
         $m->CharSet = "UTF-8";
