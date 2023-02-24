@@ -107,7 +107,7 @@ class DBPdo extends PDO
         return $result;
     }
 
-    public function rowExists( string $query ): bool
+    public function rowExists(string $query): bool
     {
         $stmt = $this->prepare("SELECT EXISTS ({$query}) AS result");
         $stmt->execute();
@@ -145,5 +145,67 @@ class DBPdo extends PDO
             $this->batch = [];
             throw new Exception("Batch execution failed: " . $e->getMessage());
         }
+    }
+
+    public function getLastInsertId(): int
+    {
+        return $this->lastInsertId();
+    }
+
+    /**
+     * Creating table in database
+     * @param string $table
+     * @param array $columns
+     * @return bool
+     * 
+     * @example 
+     * $table = "users";
+     * $columns = [
+     *      ["name" => "id", "type" => "INT UNSIGNED AUTO_INCREMENT PRIMARY KEY"],
+     *      ["name" => "username", "type" => "VARCHAR(255) NOT NULL"],
+     *      ["name" => "email", "type" => "VARCHAR(255) NOT NULL"],
+     *      ["name" => "password", "type" => "VARCHAR(255) NOT NULL"],
+     * ];
+     */
+    public function createTable(string $table, array $columns): bool
+    {
+        // Check if table already exists
+        $stmt = $this->prepare("SHOW TABLES LIKE :table");
+        $stmt->bindParam(":table", $table, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_NUM);
+
+        if ($result) {
+            // Table already exists, return false
+            return false;
+        }
+
+        // Table doesn't exist, create it
+        $sql = "CREATE TABLE `{$table}` (";
+        foreach ($columns as $column) {
+            $sql .= "`{$column['name']}` {$column['type']}, ";
+        }
+        $sql = rtrim($sql, ", ");
+        $sql .= ")";
+
+        try {
+            $this->beginTransaction();
+            $this->exec($sql);
+            $this->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->rollBack();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
+    public function getRowCount(string $table, string $where = "1"): int
+    {
+        $stmt = $this->prepare("SELECT COUNT(*) FROM {$table} WHERE {$where}");
+        $stmt->execute();
+        $result = $stmt->fetchColumn();
+
+        return $result;
     }
 }
