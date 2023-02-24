@@ -53,7 +53,7 @@ class DBPdo extends PDO
         return self::$instance;
     }
 
-    public function getList(string $table, string $where = "1", string $fields = "*"): array
+    public function getRows(string $table, string $where = "1", string $fields = "*"): array
     {
         $stmt = $this->prepare("SELECT {$fields} FROM {$table} WHERE {$where}");
         $stmt->execute();
