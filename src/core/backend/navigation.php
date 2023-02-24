@@ -211,7 +211,7 @@ class Navigation
 
         foreach (self::$config_menu as $k=>$i) {
             if ((in_array($i['access'], $user_access) == true) or ($user_access[0] == '')) {
-                $html[] = '<li><a href="' . (!empty($i['path']) ? $app_admin_url . $i['path'] : '#') . '">' . $i['name'] . '</a></li>';
+                $html[] = '<li><a class="btn btn-link" href="' . (!empty($i['path']) ? $app_admin_url . $i['path'] : '#') . '">' . $i['name'] . '</a></li>';
             }
         }
 
