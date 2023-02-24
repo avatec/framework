@@ -9,6 +9,7 @@ use PDOException;
 class DBPdo extends PDO
 {
     private static ?self $instance = null;
+    private array $batch = [];
 
     public function __construct(
         string $host,
@@ -113,5 +114,36 @@ class DBPdo extends PDO
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $result['result'] == 1;
+    }
+
+    public function addBatch(string $query): void
+    {
+        $this->batch[] = $query;
+    }
+
+    public function executeBatch(): bool
+    {
+        if (empty($this->batch)) {
+            return false;
+        }
+
+        try {
+            $this->beginTransaction();
+
+            foreach ($this->batch as $query) {
+                $stmt = $this->prepare($query);
+                $stmt->execute();
+            }
+
+            $this->commit();
+
+            $this->batch = [];
+
+            return true;
+        } catch (PDOException $e) {
+            $this->rollBack();
+            $this->batch = [];
+            throw new Exception("Batch execution failed: " . $e->getMessage());
+        }
     }
 }
