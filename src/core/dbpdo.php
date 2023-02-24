@@ -105,4 +105,13 @@ class DBPdo extends PDO
 
         return $result;
     }
+
+    public function rowExists( string $query ): bool
+    {
+        $stmt = $this->prepare("SELECT EXISTS ({$query}) AS result");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['result'] == 1;
+    }
 }
