@@ -9,7 +9,7 @@ class Assets
     protected static $backend = false;
     protected static $assets = false;
 
-    private static function getPath( string $module, string $type ): string
+    private static function getPath( $module, $type ): string
     {
         if (self::$assets) {
             return '/assets/';
