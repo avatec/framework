@@ -16,9 +16,9 @@ class Assets
         }
 
         $template = self::$frontend ? 'website' : 'admin';
-        $modulePath = is_null($module) ? '' : '/modules/' . $module . '/' . (self::$frontend ? 'frontend' : 'backend') .'/';
+        $modulePath = is_null($module) ? '' : '/modules/' . $module . '/' . (self::$frontend ? 'frontend' : 'backend');
 
-        return "/templates/$template/$type$modulePath";
+        return "/templates/$template/$type$modulePath/";
     }
 
     public static function assets()
