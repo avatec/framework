@@ -9,7 +9,7 @@ class Assets
     protected static $backend = false;
     protected static $assets = false;
 
-    private static function getPath($module, $type)
+    private static function getPath( string $module, string $type ): string
     {
         if (self::$assets) {
             return '/assets/';
@@ -18,7 +18,7 @@ class Assets
         $template = self::$frontend ? 'website' : 'admin';
         $modulePath = is_null($module) ? '' : '/modules/' . $module . '/' . (self::$frontend ? 'frontend' : 'backend');
 
-        return "/templates/$template/$type$modulePath/";
+        return "/templates/$template/$type$modulePath/$type/";
     }
 
     public static function assets()
