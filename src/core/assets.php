@@ -9,16 +9,22 @@ class Assets
     protected static $backend = false;
     protected static $assets = false;
 
-    private static function getPath( $module, $type ): string
+    private static function getPath( $type, $module = null ): string
     {
         if (self::$assets) {
             return '/assets/';
         }
 
-        $template = self::$frontend ? 'website' : 'admin';
-        $modulePath = is_null($module) ? '' : 'modules/' . $module . '/' . (self::$frontend ? 'frontend' : 'backend');
+        if( is_null( $module )) {
+            return "/templates/" . (self::$frontend ? "website" : "admin") . "/$type/";
+        }
 
-        return "/templates/$template/$modulePath/$type/";
+        $modulePath = '/modules/' . $module . '/' . (self::$frontend ? 'frontend' : 'backend');
+
+        $result = "/$modulePath/$type/";
+        $result = str_replace("//" , "/" , $result);
+
+        return $result;
     }
 
     public static function assets()
@@ -57,7 +63,7 @@ class Assets
         if (filter_var($file, FILTER_VALIDATE_URL) !== false) {
             self::$js_files[] = $file;
         } elseif (!self::hasJS($file)) {
-            $path = self::getPath($module, 'js');
+            $path = self::getPath('js', $module);
             self::$js_files[] = $path . $file;
         }
 
@@ -74,7 +80,7 @@ class Assets
         if (filter_var($file, FILTER_VALIDATE_URL) !== false) {
             self::$css_files[] = $file;
         } elseif (self::hasCss($file) === false) {
-            $path = self::getPath($module, 'css');
+            $path = self::getPath('css', $module);
             self::$css_files[] = $path . $file;
         }
 
