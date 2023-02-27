@@ -24,7 +24,7 @@ class Assets
     public static function assets()
     {
         self::$assets = true;
-        return new self::class;
+        return new static();
     }
 
     public static function frontend()
@@ -90,12 +90,12 @@ class Assets
     public static function setExternalJs( $name, $link )
 	{
 		self::$js_files[$name] = $link;
-        return new self::class;
+        return new static();
 	}
 
     public static function setExternalCss( $name, $link )
 	{
 		self::$css_files[$name] = $link;
-        return new self::class;
+        return new static();
 	}
 }
