@@ -54,14 +54,11 @@ class Assets
 
     public static function js($file, $module = null)
     {
-        $path = self::getPath($module, 'js');
-
-        $file = $path . $file;
-
         if (filter_var($file, FILTER_VALIDATE_URL) !== false) {
             self::$js_files[] = $file;
         } elseif (!self::hasJS($file)) {
-            self::$js_files[] = $file;
+            $path = self::getPath($module, 'js');
+            self::$js_files[] = $path . $file;
         }
 
         return new static();
@@ -74,14 +71,11 @@ class Assets
 
     public static function css($file, $module = null)
     {
-        $path = self::getPath($module, 'css');
-
-        $file = $path . $file;
-
         if (filter_var($file, FILTER_VALIDATE_URL) !== false) {
             self::$css_files[] = $file;
         } elseif (self::hasCss($file) === false) {
-            self::$css_files[] = $file;
+            $path = self::getPath($module, 'css');
+            self::$css_files[] = $path . $file;
         }
 
         return new static();
