@@ -47,15 +47,19 @@ class Form
      *  @return string
      */
 
-    protected static function build_data($data)
+    protected static function buildData( array $data )
     {
-        if (!empty($data)) {
-            foreach ($data as $key=>$value) {
-                $html[] = ' data-' . $key . '="' . $value . '"';
-            }
-
-            return implode($html);
+        if( empty( $data )) {
+            return '';
         }
+
+        $html = [];
+
+        foreach ($data as $key=>$value) {
+            $html[] = ' data-' . $key . '="' . $value . '"';
+        }
+
+        return implode($html);
     }
 
     /**
@@ -132,33 +136,30 @@ class Form
  * @param string $string
  * @return array
  */
-    protected static function getIndexes( $string )
+    protected static function getIndexes($string)
     {
-        $array = str_split( $string );
-        $newIndex1 = '';
-        $newIndex2 = '';
+        $chars = str_split($string);
+        $index1 = '';
+        $index2 = '';
 
-        foreach( $array as $i ) {
-            if( $i == '[' ) {
-                $newIndex2 = $i;
+        foreach ($chars as $char) {
+            if ($char === '[') {
+                $index2 = $char;
                 continue;
             }
 
-            if( $i == ']' ) {
-                $newIndex2 = str_replace("[" , "", $newIndex2);
+            if ($char === ']') {
+                $index2 = str_replace('[', '', $index2);
                 break;
             }
 
-            if(!empty( $newIndex2 )) {
-                $newIndex2 .= $i;
-            } else {
-                $newIndex1 .= $i;
-            }
+            $index = !empty($index2) ? 'index2' : 'index1';
+            $$index .= $char;
         }
 
         return [
-            '1' => $newIndex1,
-            '2' => $newIndex2
+            '1' => $index1,
+            '2' => $index2
         ];
     }
 
@@ -170,38 +171,37 @@ class Form
 
     protected static function getValue($name)
     {
-        // Sprawdzanie w POST[$name]
-        if (!empty(self::$post[ $name ])) {
-            return self::$post[ $name ];
+        $postValue = self::$post[$name] ?? null;
+        $getValue = self::$get[$name] ?? null;
+
+        if (!is_null($postValue)) {
+            return $postValue;
         }
 
-        // Sprawdzanie w GET[$name]
-        if (!empty(self::$get[ $name ])) {
-            return self::$get[ $name ];
+        if (!is_null($getValue)) {
+            return $getValue;
         }
 
         preg_match('/.*?\[/', $name, $param_result);
-        if (!empty($param_result)) {
-            $result_name = str_replace('[', '', end($param_result));
-        }
-
+        $result_name = !empty($param_result) ? str_replace('[', '', end($param_result)) : '';
+        
         preg_match('/\[[^\]]+\]/', $name, $param_result);
-        if (!empty($param_result)) {
-            $result_param = str_replace(['[',']'], '', end($param_result));
-        }
-
-
+        $result_param = !empty($param_result) ? str_replace(['[',']'], '', end($param_result)) : '';
+    
         if (!empty($result_name) && !empty($result_param)) {
-            if (!empty( self::$post[ $result_name ][ $result_param ] )) {
-                return self::$post[ $result_name ][ $result_param ];
+            $postNestedValue = self::$post[$result_name][$result_param] ?? null;
+            $getNestedValue = self::$get[$result_name][$result_param] ?? null;
+    
+            if (!is_null($postNestedValue)) {
+                return $postNestedValue;
             }
-
-            if (!empty(self::$get[ $result_name ][ $result_param ])) {
-                return self::$get[ $result_name ][ $result_param ];
+    
+            if (!is_null($getNestedValue)) {
+                return $getNestedValue;
             }
         }
-
-        return;
+    
+        return '';
     }
 
     /**
@@ -245,12 +245,12 @@ class Form
                 (!empty($o['id']) ? ' id="' . $o['id'] . '"' : '') .
                 (!empty($o['name']) ? ' name="' . $o['name'] . '"' : '') .
                 (!empty($o['value']) ? ' value="' . $o['value'] . '"' : '') .
-                (!empty($o['data']) ? self::build_data($o['data']) : '') . '/>';
+                (!empty($o['data']) ? self::buildData($o['data']) : '') . '/>';
         }
 
         if( !empty( $o ) && is_string( $o )) {
             return '<input type="hidden" id="' . $o . '" name="' . $o . '" value="' . (!empty( $value ) ? $value : self::getValue( $o )) . '" ' .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '/>';
+            (!empty($o['data']) ? self::buildData( (array) $o['data']) : '') . '/>';
         }
     }
 
@@ -266,13 +266,16 @@ class Form
      *  @param array data
      */
 
-    public static function label($o)
+    public static function label( array $o ): string
     {
-        return '<label' .
-            (!empty($o['for']) ? ' for="' . $o['for'] . '"' : '') .
-            (!empty($o['class']) ? ' class="' . $o['class'] . '"' : '') .
-            (!empty($o['tooltip']) ? ' data-toggle="tooltip" title="' . $o['tooltip'] . '"' : '') .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '>' . $o['label'] . $o['label_addon'] . '</label>';
+        $attrs = [
+            !empty($o['for']) ? 'for="' . $o['for'] . '"' : '',
+            !empty($o['class']) ? 'class="' . $o['class'] . '"' : '',
+            !empty($o['tooltip']) ? 'data-toggle="tooltip" title="' . $o['tooltip'] . '"' : '',
+            !empty($o['data']) ? self::buildData((array) $o['data']) : '',
+        ];
+
+        return '<label ' . implode(' ', array_filter($attrs)) . '>' . $o['label'] . $o['label_addon'] . '</label>';
     }
 
     /**
@@ -322,7 +325,7 @@ class Form
             (!empty($o['disabled']) ? ' disabled' : '') .
             (!empty($o['multiple']) ? ' multiple' : '') .
             (!empty($o['accept']) ? ' accept="' . (is_array($o['accept']) ? implode(",",$o['accept']) : $o['accept']) . '"' : '') .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '/>';
+            (!empty($o['data']) ? self::buildData($o['data']) : '') . '/>';
 
         return implode($html);
     }
@@ -390,7 +393,7 @@ class Form
             (!empty($o['required']) ? ' required' : '') .
             (!empty($o['readonly']) ? ' readonly' : '') .
             (!empty($o['disabled']) ? ' disabled' : '') .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '>' . (!empty($o['value']) ? $o['value'] : '') . '</textarea>';
+            (!empty($o['data']) ? self::buildData($o['data']) : '') . '>' . (!empty($o['value']) ? $o['value'] : '') . '</textarea>';
 
         return implode($html);
     }
@@ -430,23 +433,30 @@ class Form
             (!empty($o['disabled']) ? ' disabled' : '') .
             (!empty($o['multiple']) ? ' multiple' : '') .
             (!empty($o['placeholder']) ? ' placeholder="' . $o['placeholder'] . '"' : '') .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '>';
+            (!empty($o['data']) ? self::buildData($o['data']) : '') . '>';
 
         if (!empty($o['empty'])) {
             $html[] = '<option' .
                 (isset($o['empty']['value']) ? ' value="' . $o['empty']['value'] . '"' : '') . '>' . $o['empty']['name'] . '</option>';
         }
 
+        $defaultSelectedOption = $o['value'] ?? null;
+
         if (!empty($o['options']) && is_array( $o['options'] )) {
             foreach ($o['options'] as $option) {
                 if (empty($option['selected'])) {
                     $option['selected'] = self::is_selected($o['name'], $option['id']);
                 }
+
+                if(!empty( $defaultSelectedOption ) && $option['id'] == $defaultSelectedOption) {
+                    $option['selected'] = true;
+                }
+
                 $html[] = '<option' .
                     (isset($option['id']) ? ' value="' . $option['id'] . '"' : '') .
                     (!empty($option['subtext']) ? ' data-subtext="' . $option['subtext'] . '"' : '') .
                     (!empty($option['selected']) ? ' selected' : '') .
-                    (!empty($option['data']) ? self::build_data($option['data']) : '') . '>' . $option['name'] . '</option>';
+                    (!empty($option['data']) ? self::buildData($option['data']) : '') . '>' . $option['name'] . '</option>';
             }
         }
 
@@ -512,7 +522,7 @@ class Form
             (!empty($o['readonly']) ? ' readonly' : '') .
             (!empty($o['disabled']) ? ' disabled' : '') .
             (!empty($o['checked']) ? ' checked' : '') .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '/>';
+            (!empty($o['data']) ? self::buildData($o['data']) : '') . '/>';
 
         if(!empty( $o['schema'] ) && $o['schema'] == 'bootstrap4' ) {
             if (!empty($o['label'])) {
@@ -594,7 +604,7 @@ class Form
             (!empty($o['readonly']) ? ' readonly' : '') .
             (!empty($o['disabled']) ? ' disabled' : '') .
             (!empty($o['checked']) ? ' checked' : '') .
-            (!empty($o['data']) ? self::build_data($o['data']) : '') . '/>';
+            (!empty($o['data']) ? self::buildData($o['data']) : '') . '/>';
 
         if (!empty($o['label']) && !empty($o['label']['outside']))  {
             $html[] = $o['label']['text'] . '</label>';
