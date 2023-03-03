@@ -15,6 +15,7 @@ class Mail
     public static $bcc;
     public static $attachment;
     public static $debug = false;
+    private static $isHTML = true;
 
     public static function setAddress( string $address, $name = null )
     {
@@ -109,7 +110,7 @@ class Mail
         }
         $m->Subject = self::$subject;
 
-        if (!empty($config['smtp_html'])) {
+        if($this->isHTML == 'HTML' ) {
             $m->AltBody = "Aby obejrzeć tą wiadomość użyj klienta poczty e-mail obsługującego format HTML";
             $m->MsgHTML(self::$text);
         } else {
