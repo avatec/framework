@@ -67,11 +67,29 @@ class Navigation
 
     public static function configmenu($name, $path, $priority = 1)
     {
-        self::$config_menu[] = [
-            'priority' => (int) $priority,
-            'name' => $name,
-            'path' => $path
-        ];
+        if( self::configMenuExists( $name, $path ) == false ) {
+            self::$config_menu[] = [
+                'priority' => (int) $priority,
+                'name' => $name,
+                'path' => $path
+            ];
+        }
+    }
+
+/**
+ * Returns bool if $name and $path exists in array $config_menu
+ * @param string $name
+ * @param string $path
+ * @return bool
+ */
+    public static function configMenuExists($name, $path) 
+    {
+        foreach (self::$config_menu as $item) {
+            if ($item['name'] === $name && $item['path'] === $path) {
+                return true;
+            }
+        }
+        return false;
     }
 
 /**
