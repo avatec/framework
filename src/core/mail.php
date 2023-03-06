@@ -110,7 +110,7 @@ class Mail
         }
         $m->Subject = self::$subject;
 
-        if($this->isHTML == 'HTML' ) {
+        if(self::$isHTML == 'HTML' ) {
             $m->AltBody = "Aby obejrzeć tą wiadomość użyj klienta poczty e-mail obsługującego format HTML";
             $m->MsgHTML(self::$text);
         } else {
