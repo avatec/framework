@@ -11,20 +11,20 @@ class Mail
     public static $name;
     public static $subject;
     public static $text;
-    public static $reply_to;
+    public static $replyTo;
     public static $bcc;
     public static $attachment;
     public static $debug = false;
     private static $isHTML = true;
 
-    public static function setAddress( string $address, $name = null )
+    public static function setHTML( bool $status = true )
     {
-        if( !is_null( $name )) {
-            self::$name = $name;
-        } else {
-            self::$name = $address;
-        }
-
+        self::$isHTML = $status;
+        return new self;   
+    }
+    public static function setAddress( string $address, string $name = '' )
+    {
+        self::$name = $name ?? $address;
         self::$address = $address;
         return new self;
     }
@@ -37,7 +37,7 @@ class Mail
 
     public static function setAddReplyTo( string $address )
     {
-        self::$reply_to = $address;
+        self::$replyTo = $address;
         return new self;
     }
 
@@ -58,22 +58,16 @@ class Mail
         return !empty( self::$Error ) ? self::$Error : null;
     }
 
-    public static function setHTML( bool $status = true )
-    {
-        self::$isHTML = $status;
-        return new self;   
-    }
-
     public static function send()
     {
         global $app_path, $config;
 
         $m = new PHPMailer();
-        if(!empty(self::$debug)) {
-            // Debug
-            $m->SMTPDebug = 3;
-            $m->Debugoutput = "html";
-        }
+        // Debug
+        $m->SMTPDebug = 3;
+        $m->Debugoutput = function($str, $level) {
+            \Core\Logs::create('mail.smtp.log', gmdate('Y-m-d H:i:s'). "\t$level\t$str\n", FILE_APPEND | LOCK_EX);
+        };
 
         $m->CharSet = "UTF-8";
         $m->SetLanguage("pl", $app_path . "vendor/phpmailer/phpmailer/");
@@ -161,7 +155,7 @@ class Mail
             throw new \Exception('You must provide correct path to file not a directory: ' . $filePath);
         }
 
-        self::$attachment[] = array($filePath, $filePath);
+        self::$attachment[] = array($filePath, basename($filePath));
         return new self;
     }
 }
