@@ -58,6 +58,12 @@ class Mail
         return !empty( self::$Error ) ? self::$Error : null;
     }
 
+    public static function setHTML( bool $status = true )
+    {
+        self::$isHTML = $status;
+        return new self;   
+    }
+
     public static function send()
     {
         global $app_path, $config;
@@ -110,7 +116,7 @@ class Mail
         }
         $m->Subject = self::$subject;
 
-        if(self::$isHTML == 'HTML' ) {
+        if(!empty(self::$isHTML)) {
             $m->AltBody = "Aby obejrzeć tą wiadomość użyj klienta poczty e-mail obsługującego format HTML";
             $m->MsgHTML(self::$text);
         } else {
@@ -148,7 +154,7 @@ class Mail
     public static function addAttachment( string $filePath )
     {
         if( empty( $filePath )) {
-            throw new \Exception('File path must not be empty');
+            throw new \Exception('File path must not be empty: ' . $filePath);
         }
 
         self::$attachment[] = $filePath;
