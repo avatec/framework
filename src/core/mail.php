@@ -64,10 +64,12 @@ class Mail
 
         $m = new PHPMailer();
         // Debug
-        $m->SMTPDebug = 3;
-        $m->Debugoutput = function($str, $level) {
-            \Core\Logs::create('mail.smtp.log', gmdate('Y-m-d H:i:s'). "\t$level\t$str\n", FILE_APPEND | LOCK_EX);
-        };
+        if(!empty( self::$debug )) {
+            $m->SMTPDebug = 3;
+            $m->Debugoutput = function($str, $level) {
+                \Core\Logs::create('mail.smtp.log', gmdate('Y-m-d H:i:s'). "\t$level\t$str\n", FILE_APPEND | LOCK_EX);
+            };
+        }
 
         $m->CharSet = "UTF-8";
         $m->SetLanguage("pl", $app_path . "vendor/phpmailer/phpmailer/");
