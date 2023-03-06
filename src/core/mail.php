@@ -157,6 +157,10 @@ class Mail
             throw new \Exception('File path must not be empty: ' . $filePath);
         }
 
+        if( !is_file( $filePath )) {
+            throw new \Exception('You must provide correct path to file not a directory: ' . $filePath);
+        }
+
         self::$attachment[] = $filePath;
         return new self;
     }
