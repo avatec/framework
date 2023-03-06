@@ -246,8 +246,57 @@ class Date
         return (float) ($diff / 86400);
     }
 
+    public static function countTime(string $end, string $start = null): string 
+    {
+        if (empty($start)) {
+            $start = date('Y-m-d H:i:s');
+        }
+    
+        $diffInSeconds = strtotime($end) - strtotime($start);
+        $diffInMinutes = (int) round($diffInSeconds / 60);
+    
+        $hours = floor($diffInMinutes / 60);
+        $minutes = $diffInMinutes % 60;
+    
+        $formattedTime = '';
+        if ($hours > 0) {
+            $formattedTime .= "$hours " . ($hours == 1 ? 'hour' : 'hours');
+        }
+    
+        if ($minutes > 0) {
+            $formattedTime .= ($hours > 0 ? ' ' : '') . "$minutes " . ($minutes == 1 ? 'minute' : 'minutes');
+        }
+    
+        return trim($formattedTime);
+    }
+
     public static function dayName( int $dayNumber ): string
     {
         return self::$_weeks[$dayNumber];
     }
+
+    public static function readableDate( string $dateBegin, string $dateEnd ): string 
+    {
+        $dateBegin = (object) [
+            'day' => date('j' , strtotime( $dateBegin )),
+            'month' => date('m' , strtotime( $dateBegin )),
+            'year' => date('Y' , strtotime( $dateBegin ))
+        ];
+
+        $dateEnd = (object) [
+            'day' => date('j' , strtotime( $dateEnd )),
+            'month' => date('m' , strtotime( $dateEnd )),
+            'year' => date('Y' , strtotime( $dateEnd ))
+        ];
+
+        if( $dateBegin->month == $dateEnd->month && $dateBegin->year == $dateEnd->year ) {
+            return $dateBegin->day . ' - ' . $dateEnd->day . ' ' . self::getMonth( $dateBegin->month ) . ' ' . $dateBegin->year;
+        }
+
+        if( $dateBegin->month < $dateEnd->month && $dateBegin->year == $dateEnd->year ) {
+            return $dateBegin->day . ' ' . self::getMonth( $dateBegin->month ) . ' - ' . $dateEnd->day . ' ' . self::getMonth( $dateEnd->month ) . ' ' . $dateEnd->year;
+        }
+
+        return $dateBegin->day . ' ' . self::getMonth( $dateBegin->month ) . ' ' . $dateBegin->year . ' - ' . $dateEnd->day . ' ' . self::getMonth( $dateEnd->month ) . ' ' . $dateEnd->year;
+    } 
 }
