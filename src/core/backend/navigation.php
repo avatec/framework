@@ -84,6 +84,10 @@ class Navigation
  */
     public static function configMenuExists($name, $path) 
     {
+        if( empty( self::$config_menu )) {
+            return false;
+        }
+        
         foreach (self::$config_menu as $item) {
             if ($item['name'] === $name && $item['path'] === $path) {
                 return true;
