@@ -161,7 +161,7 @@ class Mail
             throw new \Exception('You must provide correct path to file not a directory: ' . $filePath);
         }
 
-        self::$attachment[] = $filePath;
+        self::$attachment[] = array($filePath, $filePath);
         return new self;
     }
 }
