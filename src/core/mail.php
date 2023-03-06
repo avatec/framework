@@ -145,7 +145,7 @@ class Mail
  * @param string $filePath is a valid path to file
  * @return self
  */
-    public static function addAttachment( string $filePath )
+    public static function addAttachment( string $filePath = '' )
     {
         if( empty( $filePath )) {
             throw new \Exception('File path must not be empty: ' . $filePath);
