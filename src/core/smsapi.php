@@ -4,7 +4,7 @@ use SMSApi\Client;
 use SMSApi\Api\Sms\Message\Send;
 use SMSApi\Exception\SmsapiException;
 
-class SMS {
+class SMSApi {
 
     private $client;
   
