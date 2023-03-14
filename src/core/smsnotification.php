@@ -1,30 +1,30 @@
 <?php namespace Core;
 
-use SMSApi\Client;
-use SMSApi\Api\Sms\Message\Send;
-use SMSApi\Exception\SmsapiException;
+use Smsapi\Client\Feature\Sms\Bag\SendSmsBag;
+use Smsapi\Client\Feature\Sms\Data\Sms;
+use Smsapi\Client\SmsapiHttpClient;
 
 class SmsNotification {
 
-    private $client;
+    private $apiToken;
   
-    public function __construct($apiKey) 
+    public function __construct($apiToken) 
     {
-        $this->client = new Client($apiKey);
+        $this->apiToken = $apiToken;
     }
   
     public function sendMessage($to, $message) 
     {
-        $sms = new Send();
-        $sms->setTo($to);
-        $sms->setText($message);
-  
         try {
-            $result = $this->client->smsSend()->send($sms); 
-            return $result->getList()[0]->getPoints();
+            $sms = (new SmsapiHttpClient())
+                ->smsapiPlService($this->apiToken)
+                ->smsFeature()
+                ->sendSms(SendSmsBag::withMessage($to, $message));
         } catch (SmsapiException $e) {
             throw new \Exception("Error sending SMS: " . $e->getMessage());
             return false;
         }
+
+        return true;
     }
 }
