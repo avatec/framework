@@ -2,7 +2,8 @@
 
 use Smsapi\Client\Feature\Sms\Bag\SendSmsBag;
 use Smsapi\Client\Feature\Sms\Data\Sms;
-use Smsapi\Client\SmsapiHttpClient;
+use Smsapi\Client\Curl\SmsapiHttpClient;
+use Smsapi\Client\Infrastructure\ResponseMapper\ApiErrorException;
 
 class SmsNotification {
 
