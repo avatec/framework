@@ -301,4 +301,11 @@ class Date
 
         return $dateBegin->day . ' ' . self::getMonth($dateBegin->month) . ' ' . $dateBegin->year . ' - ' . $dateEnd->day . ' ' . self::getMonth($dateEnd->month) . ' ' . $dateEnd->year;
     }
+
+    public static function formatToIso8601(string $originalDate): string
+    {
+        $dateTime = new DateTime($originalDate);
+        $dateTime->setTimezone(new DateTimeZone('Europe/Berlin'));
+        return $dateTime->format('c');
+    }
 }
