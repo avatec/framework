@@ -53,8 +53,8 @@ class Language
         return $select;
     }
 
-/**
- *	Inicjalizacja języków
+    /**
+    *	Inicjalizacja języków
     */
     public static function init( $defaultLanguage = DEFAULT_LANGUAGE, $allowBrowserLanguage = false ): void
     {
