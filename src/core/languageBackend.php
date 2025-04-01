@@ -21,8 +21,8 @@ class LanguageBackend {
 	public static $selected = 'pl';
 	public static $lang = array();
 
-	public static function init($defaultLanguage = 'pl')
-	{
+	public static function init($defaultLanguage = 'pl'): void
+    {
 		if(!empty($_SESSION['backend']['translations']['code'])) {
 			self::$selected = $_SESSION['backend']['translations']['code'];
 		} else {
@@ -30,17 +30,23 @@ class LanguageBackend {
 		}
 	}
 
-	public static function change( $code )
-	{
+	public static function change( string $code ): void
+    {
 		self::$selected = $code;
 		self::update();
 	}
 
+	public static function update(): void
+    {
+		$_SESSION['backend']['translations'] = array(
+			'code' => self::$selected,
+			'translate' => self::$lang
+		);
+	}
+
 	public static function get( $module, $translate, $replace = null )
 	{
-		global $app_url;
-
-		if( strpos( $module , '/' ) == true ) {
+		if(strpos($module, '/')) {
 			$e = explode("/" , $module);
 			$module = $e['0'];
 			$file = $e['1'];
@@ -53,8 +59,8 @@ class LanguageBackend {
         if (isset(self::$lang[$module_arr][$translate])) {
             $text = self::$lang[$module_arr][$translate];
             if (!is_array($text)) {
-                $text = str_replace("[app_url]", $app_url, $text);
-                $text = str_replace("[app_url_without_http]", str_replace("http://", "", $app_url), $text);
+                $text = str_replace("[app_url]", APP_URL, $text);
+                $text = str_replace("[app_url_without_http]", str_replace("http://", "", APP_URL), $text);
             }
             if (!empty($replace)) {
                 $text = preg_replace_callback('/([##]+)/', function ($matches) use (&$replace) {
@@ -62,10 +68,9 @@ class LanguageBackend {
                 }, $text);
             }
             return $text;
-        } else {
-            return $translate;
-            //trigger_error('Translation for <b>' . $module . '</b> => <u>' . $translate . '</u> <b>not found</b><br/>' , E_USER_NOTICE );
         }
+
+        return $translate;
 	}
 
 	public static function set($module, $value)
@@ -75,8 +80,6 @@ class LanguageBackend {
 
 	public static function load( $module, $include = false )
 	{
-		global $app_path;
-
 		if( strpos( $module , '/' ) == true ) {
 			$e = explode("/" , $module);
 			$module = $e['0'];
@@ -87,33 +90,23 @@ class LanguageBackend {
 		}
 
 
-		if( $include == true ) {
-			$lang_file = $app_path . 'include/languages/admin/' . $module . '_' . self::$selected . '.php';
+		if($include) {
+			$lang_file = APP_PATH . 'include/languages/admin/' . $module . '_' . self::$selected . '.php';
 		} else {
-			$lang_file = $app_path . 'modules/' .$module . '/languages/admin/' . (!empty($file) ? $file . '/' : '') . self::$selected . '.php';
+			$lang_file = APP_PATH . 'modules/' .$module . '/languages/admin/' . (!empty($file) ? $file . '/' : '') . self::$selected . '.php';
 		}
 
-		if( file_exists( $lang_file ) == false ) {
-			$lang_file = $app_path . 'modules/' .$module . '/backend/languages/' . (!empty($file) ? $file . '/' : '') . self::$selected . '.php';
+		if(!file_exists($lang_file)) {
+			$lang_file = APP_PATH . 'modules/' .$module . '/backend/languages/' . (!empty($file) ? $file . '/' : '') . self::$selected . '.php';
 		}
 
-		if( file_exists( $lang_file ) == true ) {
+		if(file_exists($lang_file)) {
 			include( $lang_file );
 			if(isset($AdminLang)) {
 				self::$lang[$module_arr] = $AdminLang;
 				self::update();
 			}
-		} else {
-			//trigger_error('Can\'t find language file in module <b>'.$lang_file.'</b>' , E_USER_NOTICE );
 		}
-	}
-
-	public static function update()
-	{
-		$_SESSION['backend']['translations'] = array(
-			'code' => self::$selected,
-			'translate' => self::$lang
-		);
 	}
 
 	public static function detect()

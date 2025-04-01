@@ -2,7 +2,6 @@
 namespace Core\Frontend;
 
 use Core\Db;
-use Core\Files;
 use Core\Language\LanguageFolderNotFoundException;
 use Core\Language\LanguageTransactionNotFoundException;
 
@@ -23,14 +22,14 @@ class Language
         return new self;
     }
 
-    public static function setBrowserLanguage()
+    public static function setBrowserLanguage(): Language
     {
         $browser_language = explode("-", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         $browser_language = strtolower($browser_language[0]);
         return self::set( $browser_language );
     }
     
-    public static function set( string $code )
+    public static function set( string $code ): Language
     {
         self::$current = $code;
         return new self;

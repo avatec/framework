@@ -1,6 +1,6 @@
 <?php namespace Core;
 
-use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class Mail
@@ -11,20 +11,18 @@ class Mail
     public static $name;
     public static $subject;
     public static $text;
-    public static $replyTo;
+    public static $reply_to;
     public static $bcc;
     public static $attachment;
-    public static $debug = false;
-    private static $isHTML = true;
 
-    public static function setHTML( bool $status = true )
+    public static function setAddress( string $address, $name = null )
     {
-        self::$isHTML = $status;
-        return new self;   
-    }
-    public static function setAddress( string $address, string $name = '' )
-    {
-        self::$name = $name ?? $address;
+        if( !is_null( $name )) {
+            self::$name = $name;
+        } else {
+            self::$name = $address;
+        }
+
         self::$address = $address;
         return new self;
     }
@@ -37,7 +35,7 @@ class Mail
 
     public static function setAddReplyTo( string $address )
     {
-        self::$replyTo = $address;
+        self::$reply_to = $address;
         return new self;
     }
 
@@ -64,13 +62,8 @@ class Mail
 
         $m = new PHPMailer();
         // Debug
-        if(!empty( self::$debug )) {
-            $m->SMTPDebug = 3;
-            $m->Debugoutput = function($str, $level) {
-                \Core\Logs::create('mail.smtp.log', gmdate('Y-m-d H:i:s'). "\t$level\t$str\n", FILE_APPEND | LOCK_EX);
-            };
-        }
-
+        //$m->SMTPDebug = 3;
+        //$m->Debugoutput = "html";
         $m->CharSet = "UTF-8";
         $m->SetLanguage("pl", $app_path . "vendor/phpmailer/phpmailer/");
         $m->AddReplyTo($config['smtp_email']);
@@ -112,7 +105,7 @@ class Mail
         }
         $m->Subject = self::$subject;
 
-        if(!empty(self::$isHTML)) {
+        if (!empty($config['smtp_html'])) {
             $m->AltBody = "Aby obejrzeć tą wiadomość użyj klienta poczty e-mail obsługującego format HTML";
             $m->MsgHTML(self::$text);
         } else {
@@ -140,24 +133,5 @@ class Mail
         if (!empty($file)) {
             self::$attachment[] = array($file, $file);
         }
-    }
-
-/**
- * Dodawanie załącznika do wiadomości
- * @param string $filePath is a valid path to file
- * @return self
- */
-    public static function addAttachment( string $filePath = '' )
-    {
-        if( empty( $filePath )) {
-            throw new \Exception('File path must not be empty: ' . $filePath);
-        }
-
-        if( !is_file( $filePath )) {
-            throw new \Exception('You must provide correct path to file not a directory: ' . $filePath);
-        }
-
-        self::$attachment[] = array($filePath, basename($filePath));
-        return new self;
     }
 }

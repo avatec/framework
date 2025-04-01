@@ -1,8 +1,6 @@
 <?php
 namespace Core;
 
-use Core\Language;
-
 class Route
 {
     public $num = 0;
@@ -22,7 +20,7 @@ class Route
     public $isOAuth2 	= false;
 
     public $isLanguage 	= true;
-    public $language 	= 'pl';
+    public $language 	= 'de';
     public $asCatalog	= false;
     public $catalog 	= '/';
 

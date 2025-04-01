@@ -67,33 +67,11 @@ class Navigation
 
     public static function configmenu($name, $path, $priority = 1)
     {
-        if( self::configMenuExists( $name, $path ) == false ) {
-            self::$config_menu[] = [
-                'priority' => (int) $priority,
-                'name' => $name,
-                'path' => $path
-            ];
-        }
-    }
-
-/**
- * Returns bool if $name and $path exists in array $config_menu
- * @param string $name
- * @param string $path
- * @return bool
- */
-    public static function configMenuExists($name, $path) 
-    {
-        if( empty( self::$config_menu )) {
-            return false;
-        }
-        
-        foreach (self::$config_menu as $item) {
-            if ($item['name'] === $name && $item['path'] === $path) {
-                return true;
-            }
-        }
-        return false;
+        self::$config_menu[] = [
+            'priority' => (int) $priority,
+            'name' => $name,
+            'path' => $path
+        ];
     }
 
 /**
@@ -156,12 +134,12 @@ class Navigation
         if (empty(self::$menu)) {
             return '';
         }
-
-        self::sort();
-        
-        foreach (self::$menu as $k=>$i) {
+    
+        foreach (self::$menu as $k=>$i) {       
             self::$menu[$k]['access'] = $k;
         }
+
+        self::sort();
 
         global $app_admin_url;
 
@@ -173,12 +151,13 @@ class Navigation
 
         //nadanie wszystkim użytkownikom uprawnień do pulpitu
         array_push($user_access, "system");
-
+        
         $html[] = '<ul class="main">';
         foreach (self::$menu as $k=>$i) {
             if(empty($i['name'])) {
                 continue;
             }
+           
             if ((in_array($i['access'], $user_access) == true) || ($user_access[0] == '')) {
                 if (!empty($i['label'])) {
                     $html[] = '<h3 class="menu-separator">' . $i['name'] . '</h3>';
@@ -233,7 +212,7 @@ class Navigation
 
         foreach (self::$config_menu as $k=>$i) {
             if ((in_array($i['access'], $user_access) == true) or ($user_access[0] == '')) {
-                $html[] = '<li><a class="btn btn-link" href="' . (!empty($i['path']) ? $app_admin_url . $i['path'] : '#') . '">' . $i['name'] . '</a></li>';
+                $html[] = '<li><a href="' . (!empty($i['path']) ? $app_admin_url . $i['path'] : '#') . '">' . $i['name'] . '</a></li>';
             }
         }
 

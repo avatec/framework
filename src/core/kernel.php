@@ -290,29 +290,6 @@ class Kernel
         }
     }
 
-/**
- * Converts a string to its ASCII equivalent, for generating SEO-friendly URLs.
- *
- * @param string $text The input string to convert.
- * @return string The input string converted to its ASCII equivalent.
- */
-    public static function makeUrlFirendly( string $text ): string
-    {
-        // Convert non-Latin characters to ASCII equivalents
-        $transliterator = \Transliterator::create('Latin-ASCII');
-        $text = $transliterator->transliterate($text);
-
-        // Remove unwanted characters and spaces
-        $text = preg_replace('/[^a-zA-Z0-9\-]/', '', $text);
-        $text = preg_replace('/\-{2,}/', '-', $text);
-        $text = trim($text, '-');
-
-        // Limit the length of the resulting string
-        $text = substr($text, 0, 50);
-
-        return $text;
-    }
-
     public static function callModule($module, $command, $options = null)
     {
         global $app_path;
@@ -355,15 +332,19 @@ class Kernel
         global $app_admin_url;
 
         if (is_null($account)) {
-            $account = ['-1','1'];
+            $account = [Admins::TYPE_SUPPORT,Admins::TYPE_ADMIN];
+        }
+
+        if(Admins::$auth['type'] == Admins::TYPE_SUPPORT && empty(Admins::$auth['access'])) {
+            return true;
         }
 
         if ((strstr(Admins::$auth['access'], $module) != true) && (in_array(Admins::$auth['type'], $account) !== true)) {
             Kernel::setMessage("ERROR", "Dostęp zabroniony dla Twojego konta");
             Request::redirect($app_admin_url . "start.html");
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     public static function loadClass($file)

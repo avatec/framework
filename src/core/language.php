@@ -23,10 +23,10 @@ class Language
     public static $available = [];
 
     // Wybrany jezyk dla strony
-    public static $selected = 'de';
+    public static string $selected = 'de';
 
     // Wybrany język strony w PA
-    public static $selected_admin = 'de';
+    public static string $selected_admin = 'de';
 
     // Tablica z tłumaczeniami
     public static $lang = array();
@@ -35,7 +35,7 @@ class Language
  * Zwraca listę utworzonych języków dla danego serwisu
  * @return array
  */
-    public static function getList()
+    public static function getList(): array
     {
         if( empty( self::$available )) {
             return [];
@@ -56,7 +56,7 @@ class Language
 /**
  *	Inicjalizacja języków
     */
-    public static function init( $defaultLanguage = 'pl', $allowBrowserLanguage = false )
+    public static function init( $defaultLanguage = DEFAULT_LANGUAGE, $allowBrowserLanguage = false ): void
     {
         global $route;
         $route->language = $defaultLanguage;
@@ -88,7 +88,7 @@ class Language
         }
 
         // Panel administracyjny
-        if ($route->isBackend == true) {
+        if ($route->isBackend) {
             if (isset($_COOKIE['backendLanguage'])) {
                 self::$selected_admin = $_COOKIE['backendLanguage'];
                 //$_SESSION['backendLanguage']['code'] = self::$selected_admin;
@@ -100,14 +100,43 @@ class Language
         }
     }
 
-    public static function get_selected()
+    public static function change($code)
     {
         global $route;
 
-        if ($route->isBackend == false) {
-            return self::$selected;
-        } else {
-            return self::$selected_admin;
+        // Strona internetowa
+        if (!$route->isBackend) {
+            self::$selected = $code;
+            setcookie('frontendLanguage', self::$selected, time() + 3600, '/');
+        }
+
+        // Panel administracyjny
+        if ($route->isBackend) {
+            self::$selected_admin = $code;
+            setcookie('backendLanguage', self::$selected_admin, time() + 3600, '/');
+        }
+
+        self::update();
+    }
+
+    public static function update()
+    {
+        global $route;
+
+        // Strona internetowa
+        if (isset($route->isBackend) && $route->isBackend == false) {
+            $_SESSION['frontendLanguage'] = array(
+                'code' => self::$selected,
+                'translate' => self::$lang
+            );
+        }
+
+        // Panel administracyjny
+        if (isset($route->isBackend) && $route->isBackend == true) {
+            $_SESSION['backendLanguage'] = array(
+                'code' => self::$selected_admin,
+                'translate' => self::$lang
+            );
         }
     }
 
@@ -128,25 +157,6 @@ class Language
         if ($number > 4) {
             return $variant[2];
         }
-    }
-
-    public static function change($code)
-    {
-        global $route;
-
-        // Strona internetowa
-        if ($route->isBackend == false) {
-            self::$selected = $code;
-            setcookie('frontendLanguage', self::$selected, time() + 3600, '/');
-        }
-
-        // Panel administracyjny
-        if ($route->isBackend == true) {
-            self::$selected_admin = $code;
-            setcookie('backendLanguage', self::$selected_admin, time() + 3600, '/');
-        }
-
-        self::update();
     }
 
     public static function get($module, $translate, $replace = array())
@@ -200,6 +210,30 @@ class Language
         }
     }
 
+    protected static function replace( $string, $replacements = null )
+    {
+        if( empty( $replacements )) {
+            return $string;
+        }
+
+        foreach( $replacements as $search=>$replace_value) {
+            $string = str_replace( $search , $replace_value , $string );
+        }
+
+        return $string;
+    }
+
+    public static function get_selected()
+    {
+        global $route;
+
+        if ($route->isBackend == false) {
+            return self::$selected;
+        } else {
+            return self::$selected_admin;
+        }
+    }
+
     public static function set($module, $value)
     {
         self::$lang[$module] = $value;
@@ -236,44 +270,8 @@ class Language
         }
     }
 
-    public static function update()
-    {
-        global $route;
-
-        // Strona internetowa
-        if (isset($route->isBackend) && $route->isBackend == false) {
-            $_SESSION['frontendLanguage'] = array(
-                'code' => self::$selected,
-                'translate' => self::$lang
-            );
-        }
-
-        // Panel administracyjny
-        if (isset($route->isBackend) && $route->isBackend == true) {
-            $_SESSION['backendLanguage'] = array(
-                'code' => self::$selected_admin,
-                'translate' => self::$lang
-            );
-        }
-    }
-
     public static function detect()
     {
         return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-    }
-
-    protected static function replace( $string, $replacements = null )
-    {
-        if( empty( $replacements )) {
-            return $string;
-        }
-
-        if( !empty( $replacements )) {
-            foreach( $replacements as $search=>$replace_value) {
-                $string = str_replace( $search , $replace_value , $string );
-            }
-
-            return $string;
-        }
     }
 }

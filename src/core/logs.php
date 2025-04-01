@@ -2,18 +2,20 @@
 
 class Logs
 {
-    public static function create( string $filename, string $text ): void
+    public static function create( $filename, $text )
     {
         global $app_path;
+
         $now = date('Y-m-d');
 
-        $log_dir = $app_path . 'logs' . DIRECTORY_SEPARATOR . $now;
-        if (!is_dir($log_dir)) {
-            mkdir($log_dir, 0777, true);
+		if( is_dir( $app_path . 'logs/') == false ) {
+			@mkdir( $app_path . 'logs/');
+		}
+
+        if (is_dir($app_path . "logs/" . $now . "/") == false) {
+            @mkdir($app_path . "logs/" . $now . "/");
         }
 
-        $log_file = $log_dir . DIRECTORY_SEPARATOR . $filename;
-        $log_message = sprintf("[%s] %s\r\n", date('Y-m-d H:i:s'), $text);
-        file_put_contents($log_file, $log_message, FILE_APPEND);
+        file_put_contents($app_path . "logs/" . $now . '/' . $filename, "[".date('Y-m-d H:i:s')."] " . $text . "\r\n", FILE_APPEND);
     }
 }

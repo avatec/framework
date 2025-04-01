@@ -1,17 +1,16 @@
 <?php namespace Core\Backend;
 
-use Core\Request;
 use Core\Language;
+use Core\Request;
 
 class Model
 {
     public static $Error = [];
-    public $post, $get, $files, $any, $input, $server;
-    protected $config, $route;
-    protected static $_config;
-
     public static $app_path, $app_url;
     public static $UploadPath, $UploadUrl, $BlankImage;
+    protected static $_config;
+    public $post, $get, $files, $any, $input, $server;
+    protected $config, $route;
 
     public function __construct()
     {

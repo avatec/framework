@@ -61,9 +61,9 @@ class Api
  * @param array $additional (optional)
  * @return array|string
  */
-    public static function error( string $message, array $additional = null )
+    public static function error( string $message, array $additional = null, int $errorCode = 400 )
     {
-        http_response_code(400);
+        http_response_code( $errorCode );
         $error = ['message' => $message];
         if(!empty( $additional )) {
             $error = array_merge( $error, $additional );

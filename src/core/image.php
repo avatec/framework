@@ -3,8 +3,6 @@
 namespace Core;
 
 use Imagick;
-use RuntimeException;
-use InvalidArgumentException;
 
 class Image
 {
@@ -20,7 +18,7 @@ class Image
 	public static function cropImage(int $nw, int $nh, string $source, string $dest, string $stype = "auto")
 	{
 		if (extension_loaded('imagick')) {
-			self::cropAndScaleImageUsingImagick($nw, $nh, $source, $stype, $dest);
+			self::cropImageUsingImagick($nw, $nh, $source, $stype, $dest);
 		} else {
 			self::cropImageUsingGD($nw, $nh, $source, $stype, $dest);
 		}
@@ -34,109 +32,17 @@ class Image
 	 * @param  string $stype
 	 * @param  string $dest
 	 * @return [type]
-	 * 
-	 * @deprecated 8.1
 	 */
 
 	public static function cropImageUsingImagick(int $nw, int $nh, string $source, string $stype, string $dest)
 	{
-		return self::cropAndScaleImageUsingImagick( $nw, $nh, $source, $stype, $desc );
-	}
-
-	public static function cropAndScaleImageUsingImagick(int $newWidth, int $newHeight, string $sourceFile, string $sourceType, string $destFile, bool $scaleProportionally = true)
-	{
-		// Validate input parameters
-		if ($newWidth <= 0) {
-			throw new InvalidArgumentException("Invalid new width: {$newWidth}");
-		}
-		if ($newHeight < 0) {
-			throw new InvalidArgumentException("Invalid new height: {$newHeight}");
-		}
-		if (!file_exists($sourceFile)) {
-			throw new InvalidArgumentException("Source file not found: {$sourceFile}");
-		}
-
-		// Open the source image file with Imagick
-		$image = new Imagick($sourceFile);
-
-		// Crop and/or scale the image
-		if ($newHeight > 0) {
-			$image->cropThumbnailImage($newWidth, $newHeight);
-		} else if ($scaleProportionally) {
-			$image->scaleImage($newWidth, 0);
+		$im = new Imagick($source);
+		if ($nh > 0) {
+			$im->cropThumbnailImage($nw, $nh);
 		} else {
-			$image->scaleImage($newWidth, $newWidth);
+			$im->scaleImage($nw, 0);
 		}
-
-		// Write the modified image to the destination file
-		if (!$image->writeImage($destFile)) {
-			throw new RuntimeException("Failed to write image to destination file: {$destFile}");
-		}
-	}
-
-	public static function resizeAndCropImage(int $newWidth, int $newHeight, string $source, string $destination, string $imageType = 'image/jpeg'): bool
-	{
-		$sourceImage = imagecreatefromstring(file_get_contents($source));
-		if (!$sourceImage) {
-			return false;
-		}
-		
-		$sourceWidth = imagesx($sourceImage);
-		$sourceHeight = imagesy($sourceImage);
-		
-		// Calculate the aspect ratios of the source and destination images
-		$sourceRatio = $sourceWidth / $sourceHeight;
-		$destRatio = $newWidth / $newHeight;
-
-		if ($destRatio > $sourceRatio) {
-			// Destination image is wider than source image
-			$width = $sourceWidth;
-			$height = round($sourceWidth / $destRatio);
-			$xOffset = 0;
-			$yOffset = round(($sourceHeight - $height) / 2);
-		} else {
-			// Destination image is taller than source image
-			$width = round($sourceHeight * $destRatio);
-			$height = $sourceHeight;
-			$xOffset = round(($sourceWidth - $width) / 2);
-			$yOffset = 0;
-		}
-		
-		$destImage = imagecreatetruecolor($newWidth, $newHeight);
-		$backgroundColor = imagecolorallocate($destImage, 255, 255, 255);
-		imagefill($destImage, 0, 0, $backgroundColor);
-
-		imagecopyresampled(
-			$destImage,
-			$sourceImage,
-			0,
-			0,
-			$xOffset,
-			$yOffset,
-			$newWidth,
-			$newHeight,
-			$width,
-			$height
-		);
-		
-		$success = false;
-		switch ($imageType) {
-			case 'image/jpeg':
-			case 'image/jpg':
-				$success = imagejpeg($destImage, $destination, 80);
-				break;
-			case 'image/png':
-				$success = imagepng($destImage, $destination, 8);
-				break;
-			case 'image/gif':
-				$success = imagegif($destImage, $destination);
-				break;
-		}
-		
-		imagedestroy($sourceImage);
-		imagedestroy($destImage);
-		
-		return $success;
+		$im->writeImage($dest);
 	}
 
 	/**
